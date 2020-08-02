@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConversationBoxStyles = {
+const conversationBoxStyles = {
   display: "grid",
   gridTemplateColumns: "auto",
   gridGap: "10px",
@@ -13,7 +13,9 @@ const ConversationBoxStyles = {
 
 class ConversationBox extends React.Component {
   render() {
-    return <div style={{ ...ConversationBoxStyles }}></div>;
+    return (
+      <div style={{ ...conversationBoxStyles }}>{this.props.children}</div>
+    );
   }
 }
 

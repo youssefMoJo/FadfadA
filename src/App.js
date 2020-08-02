@@ -1,10 +1,10 @@
 import React from "react";
-import MainContainer from "./Chatting/MainContainer";
+import ChattingMainContainer from "./Chatting/ChattingMainContainer";
 
 function App() {
   return (
     <div>
-      <MainContainer />
+      <ChattingMainContainer />
     </div>
   );
 }

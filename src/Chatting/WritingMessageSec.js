@@ -1,11 +1,9 @@
 import React from "react";
 import { Input } from "antd";
 import { SmileOutlined, PaperClipOutlined } from "@ant-design/icons";
-const { TextArea } = Input;
 
 const inputStyles = {
   width: "85%",
-  height: "30px",
   borderRadius: "20px",
   float: "right",
   resize: "none",
@@ -13,7 +11,7 @@ const inputStyles = {
   outline: "none",
   marginRight: "10px",
 };
-
+const { TextArea } = Input;
 const iconsStyles = {
   display: "inline",
   fontSize: "30px",
