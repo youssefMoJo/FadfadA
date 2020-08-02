@@ -1,16 +1,16 @@
 import React from "react";
 import ConversationBoxStyles from "./ConversationBox";
+import WritingMessageSec from "./WritingMessageSec";
 
 const MainContainerStyles = {
   display: "grid",
   gridTemplateColumns: "auto",
   gridGap: "10px",
   backgroundColor: "white",
-  padding: "0px",
-  height: "751px",
+  height: "750px",
   marginTop: "100px",
-  width: "40%",
-  borderRadius: "25px 25px 0px 0px",
+  width: "700px",
+  borderRadius: "30px 30px 0px 0px",
 };
 
 class MainContainer extends React.Component {
@@ -18,6 +18,7 @@ class MainContainer extends React.Component {
     return (
       <div style={{ ...MainContainerStyles }}>
         <ConversationBoxStyles />
+        <WritingMessageSec />
       </div>
     );
   }

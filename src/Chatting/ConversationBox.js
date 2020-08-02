@@ -5,9 +5,10 @@ const ConversationBoxStyles = {
   gridTemplateColumns: "auto",
   gridGap: "10px",
   backgroundColor: "#EEEEEE",
-  marginTop: "150px",
+  marginTop: "120px",
   height: "500px",
   width: "100%",
+  overflow: "auto",
 };
 
 class ConversationBox extends React.Component {
