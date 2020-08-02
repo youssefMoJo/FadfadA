@@ -5,7 +5,8 @@ import MyMessage from "./MyMessage";
 import FriendMessage from "./FriendMessage";
 
 const chattingMainContainerStyles = {
-  display: "grid",
+  display: "flex",
+  flexDirection: "column",
   gridTemplateColumns: "auto",
   gridGap: "10px",
   backgroundColor: "white",
@@ -16,14 +17,31 @@ const chattingMainContainerStyles = {
 };
 
 class ChattingMainContainer extends React.Component {
+  state = {
+    myMessages: [],
+  };
+
+  presentMessage(mes) {
+    const myMessage = [];
+    myMessage.unshift(mes);
+    this.setState({
+      myMessages: [...this.state.myMessages, mes],
+    });
+  }
   render() {
+    let message = [];
+    let getTheMessage = this.state.myMessages.forEach((mes, i) => {
+      return message.push(<MyMessage content={mes} key={i} />);
+    });
+
     return (
       <div style={{ ...chattingMainContainerStyles }}>
         <ConversationBox>
-          <MyMessage />
+          {message}
           <FriendMessage />
         </ConversationBox>
-        <WritingMessageSec />
+
+        <WritingMessageSec message={(mes) => this.presentMessage(mes)} />
       </div>
     );
   }

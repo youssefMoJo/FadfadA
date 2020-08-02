@@ -15,12 +15,8 @@ const myMessageStyles = {
 class MyMessage extends React.Component {
   render() {
     return (
-      <div>
-        <p style={{ ...myMessageStyles }}>
-          Normally we start with the JSX syntax in React to render some output
-          to the browser. Essentially, JSX is a mix of HTML and JavaScript and
-          tries to get the best out of both these languages.
-        </p>
+      <div style={{ height: "auto" }}>
+        <p style={{ ...myMessageStyles }}>{this.props.content}</p>
       </div>
     );
   }

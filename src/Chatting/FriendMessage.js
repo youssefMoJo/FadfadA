@@ -26,7 +26,7 @@ const iconsStyles = {
 class FriendMessage extends React.Component {
   render() {
     return (
-      <div style={{ marginLeft: "15px" }}>
+      <div style={{ marginLeft: "15px", height: "auto" }}>
         <img
           src="bg.png"
           alt={"Girl in a jacket"}

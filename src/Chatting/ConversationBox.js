@@ -1,7 +1,8 @@
 import React from "react";
 
 const conversationBoxStyles = {
-  display: "grid",
+  display: "flex",
+  flexDirection: "column",
   gridTemplateColumns: "auto",
   gridGap: "10px",
   background: "linear-gradient(white, #EEEEEE)",
