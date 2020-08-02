@@ -16,6 +16,7 @@ const iconsStyles = {
   display: "inline",
   fontSize: "30px",
   marginLeft: "10px",
+  outline: "none",
 };
 
 class WritingMessageSec extends React.Component {

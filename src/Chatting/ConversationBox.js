@@ -4,7 +4,7 @@ const conversationBoxStyles = {
   display: "grid",
   gridTemplateColumns: "auto",
   gridGap: "10px",
-  backgroundColor: "#EEEEEE",
+  background: "linear-gradient(white, #EEEEEE)",
   marginTop: "120px",
   height: "500px",
   width: "100%",
