@@ -14,6 +14,7 @@ const FriendMessageStyles = {
   padding: "15px",
   float: "left",
   marginRight: "5px",
+  fontSize: "25px",
 };
 const iconsStyles = {
   display: "inline",
@@ -42,18 +43,15 @@ class FriendMessage extends React.Component {
               color: "#2F80ED",
               marginLeft: "20px",
             }}
+            onClick={() => console.log(this.props.name)}
           >
-            youssef
+            {this.props.name}
           </h3>
           <CommentOutlined style={{ ...iconsStyles }} />
           <UserAddOutlined style={{ ...iconsStyles }} />
         </div>
 
-        <p style={{ ...FriendMessageStyles }}>
-          Normally we start with the JSX syntax in React to render some output
-          to the browser. Essentially, JSX is a mix of HTML and JavaScript and
-          tries to get the best out of both these languages.
-        </p>
+        <p style={{ ...FriendMessageStyles }}>{this.props.message}</p>
       </div>
     );
   }

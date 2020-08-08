@@ -10,6 +10,7 @@ const inputStyles = {
   outline: "none",
   marginRight: "10px",
   height: "35px",
+  fontSize: "20px",
 };
 const iconsStyles = {
   display: "inline",
@@ -21,6 +22,7 @@ const iconsStyles = {
 class WritingMessageSec extends React.Component {
   state = {
     message: "",
+    replay: "",
   };
 
   handleChange(event) {

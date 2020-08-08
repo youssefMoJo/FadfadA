@@ -10,6 +10,7 @@ const myMessageStyles = {
   padding: "15px",
   float: "right",
   marginRight: "5px",
+  fontSize: "25px",
 };
 
 class MyMessage extends React.Component {

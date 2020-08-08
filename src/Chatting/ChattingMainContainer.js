@@ -3,6 +3,8 @@ import ConversationBox from "./ConversationBox";
 import WritingMessageSec from "./WritingMessageSec";
 import MyMessage from "./MyMessage";
 import FriendMessage from "./FriendMessage";
+import openSocket from "socket.io-client";
+const io = openSocket("http://localhost:5000");
 
 const chattingMainContainerStyles = {
   display: "flex",
@@ -18,27 +20,60 @@ const chattingMainContainerStyles = {
 
 class ChattingMainContainer extends React.Component {
   state = {
-    myMessages: [],
+    username: "",
+    message: "",
+    messages: [],
   };
 
-  presentMessage(mes) {
-    const myMessage = [];
-    myMessage.unshift(mes);
-    this.setState({
-      myMessages: [...this.state.myMessages, mes],
+  componentDidMount() {
+    io.on("theMessage", (messagesArr) => {
+      this.setState({ messages: [...messagesArr] });
     });
+    this.setState(
+      {
+        username: this.props.name,
+      },
+      () => {
+        io.emit("NewUser", this.state.username);
+        io.on("allMessages", (messagesArr) => {
+          this.setState({ messages: [...messagesArr] }, () => {});
+        });
+      }
+    );
   }
-  render() {
-    let message = [];
-    let getTheMessage = this.state.myMessages.forEach((mes, i) => {
-      return message.push(<MyMessage content={mes} key={i} />);
-    });
 
+  presentMessage(mes) {
+    this.setState(
+      {
+        message: mes,
+        messages: [
+          ...this.state.messages,
+          { username: this.state.username, message: mes },
+        ],
+      },
+      () => {
+        io.emit("message", this.state.messages);
+      }
+    );
+  }
+
+  render() {
     return (
       <div style={{ ...chattingMainContainerStyles }}>
         <ConversationBox>
-          {message}
-          <FriendMessage />
+          {this.state.messages.map((eachMessage, i) => {
+            if (eachMessage.username === this.state.username) {
+              return <MyMessage key={i} content={eachMessage.message} />;
+            } else {
+              return (
+                <FriendMessage
+                  key={i}
+                  name={eachMessage.username}
+                  message={eachMessage.message}
+                />
+              );
+            }
+          })}
         </ConversationBox>
 
         <WritingMessageSec message={(mes) => this.presentMessage(mes)} />
