@@ -20,6 +20,7 @@ const chattingMainContainerStyles = {
 
 class ChattingMainContainer extends React.Component {
   state = {
+    replay: "",
     username: "",
     message: "",
     messages: [],
@@ -70,13 +71,16 @@ class ChattingMainContainer extends React.Component {
                   key={i}
                   name={eachMessage.username}
                   message={eachMessage.message}
+                  replay={(name) => this.setState({ replay: name })}
                 />
               );
             }
           })}
         </ConversationBox>
-
-        <WritingMessageSec message={(mes) => this.presentMessage(mes)} />
+        <WritingMessageSec
+          replay={this.state.replay}
+          message={(mes) => this.presentMessage(mes)}
+        ></WritingMessageSec>
       </div>
     );
   }

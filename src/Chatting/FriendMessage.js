@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  CommentOutlined,
-  UserAddOutlined,
-  UserDeleteOutlined,
-} from "@ant-design/icons";
+import { CommentOutlined } from "@ant-design/icons";
 
 const FriendMessageStyles = {
   borderRadius: "35px",
@@ -25,17 +21,21 @@ const iconsStyles = {
 };
 
 class FriendMessage extends React.Component {
+  replay(name) {
+    this.props.replay(name);
+  }
   render() {
     return (
       <div style={{ marginLeft: "15px", height: "auto" }}>
         <img
           src="bg.png"
-          alt={"Girl in a jacket"}
+          alt={""}
           width="50px"
           height="50px"
           style={{ borderRadius: "25px", display: "inline", float: "left" }}
         ></img>
         <div>
+          {/* <a href="#"> */}
           <h3
             style={{
               display: "inline",
@@ -43,12 +43,12 @@ class FriendMessage extends React.Component {
               color: "#2F80ED",
               marginLeft: "20px",
             }}
-            onClick={() => console.log(this.props.name)}
+            onClick={() => this.replay(this.props.name)}
           >
             {this.props.name}
           </h3>
+          {/* </a> */}
           <CommentOutlined style={{ ...iconsStyles }} />
-          <UserAddOutlined style={{ ...iconsStyles }} />
         </div>
 
         <p style={{ ...FriendMessageStyles }}>{this.props.message}</p>

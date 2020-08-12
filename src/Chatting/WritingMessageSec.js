@@ -1,5 +1,7 @@
 import React from "react";
 import { SmileOutlined, PaperClipOutlined } from "@ant-design/icons";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 
 const inputStyles = {
   width: "85%",
@@ -18,11 +20,19 @@ const iconsStyles = {
   marginLeft: "10px",
   outline: "none",
 };
+const emojisBox = {
+  borderRadius: "50px",
+  marginBottom: "10px",
+  marginLeft: "20px",
+  position: "absolute",
+  top: "300px",
+};
 
 class WritingMessageSec extends React.Component {
   state = {
     message: "",
     replay: "",
+    showEmojis: false,
   };
 
   handleChange(event) {
@@ -34,25 +44,49 @@ class WritingMessageSec extends React.Component {
       this.props.message(this.state.message);
       this.setState({
         message: "",
+        showEmojis: false,
       });
     }
   }
+  addEmoji = (e) => {
+    let emoji = e.native;
+    this.setState({
+      message: this.state.message + emoji,
+    });
+  };
+
   render() {
     return (
-      <div>
-        <div style={{ marginTop: "10px" }}>
-          <form>
-            <textarea
-              value={this.state.message}
-              style={{ ...inputStyles }}
-              placeholder="Enter Your Message"
-              onChange={(e) => this.handleChange(e)}
-              onKeyPress={(e) => this.keypress(e)}
-            />
-          </form>
-          <SmileOutlined style={{ ...iconsStyles }} />
-          <PaperClipOutlined style={{ ...iconsStyles }} />
-        </div>
+      <div style={{ marginTop: "10px", marginBottom: "70px" }}>
+        {this.state.showEmojis ? (
+          <Picker
+            style={{ ...emojisBox }}
+            onSelect={(emoji) => this.addEmoji(emoji)}
+          />
+        ) : (
+          ""
+        )}
+
+        <form>
+          <textarea
+            value={this.state.message}
+            style={{ ...inputStyles }}
+            placeholder="Enter Your Message"
+            onChange={(e) => this.handleChange(e)}
+            onKeyPress={(e) => this.keypress(e)}
+          />
+        </form>
+
+        <SmileOutlined
+          onClick={() =>
+            this.state.showEmojis
+              ? this.setState({ showEmojis: false })
+              : this.setState({ showEmojis: true })
+          }
+          style={{ ...iconsStyles }}
+        />
+
+        <PaperClipOutlined style={{ ...iconsStyles }} />
       </div>
     );
   }
