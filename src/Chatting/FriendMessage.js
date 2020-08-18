@@ -21,9 +21,6 @@ const iconsStyles = {
 };
 
 class FriendMessage extends React.Component {
-  replay(name) {
-    this.props.replay(name);
-  }
   render() {
     return (
       <div style={{ marginLeft: "15px", height: "auto" }}>
@@ -35,7 +32,6 @@ class FriendMessage extends React.Component {
           style={{ borderRadius: "25px", display: "inline", float: "left" }}
         ></img>
         <div>
-          {/* <a href="#"> */}
           <h3
             style={{
               display: "inline",
@@ -43,11 +39,9 @@ class FriendMessage extends React.Component {
               color: "#2F80ED",
               marginLeft: "20px",
             }}
-            onClick={() => this.replay(this.props.name)}
           >
             {this.props.name}
           </h3>
-          {/* </a> */}
           <CommentOutlined style={{ ...iconsStyles }} />
         </div>
 

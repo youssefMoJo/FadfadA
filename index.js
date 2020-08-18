@@ -20,10 +20,30 @@ app.use(function (req, res, next) {
 });
 
 let messagesArray = [];
-let onloneUsers = 0;
+let onlineUsers = 0;
+let userNames = [];
+let users = {};
 io.on("connection", (client) => {
-  onloneUsers++;
-  client.on("NewUser", () => {
+  client.on("NewUser", (username, callback) => {
+    if (userNames.includes(username)) {
+      callback(true);
+    } else {
+      onlineUsers++;
+      userNames.push(username);
+      callback(false, true);
+    }
+  });
+
+  client.on("getOnlineUsers", (leave) => {
+    if (leave) {
+      onlineUsers--;
+      io.emit("onlineUsers", onlineUsers);
+    } else {
+      io.emit("onlineUsers", onlineUsers);
+    }
+  });
+
+  client.on("gettingAllMessages", () => {
     client.emit("allMessages", messagesArray);
   });
 
@@ -33,9 +53,12 @@ io.on("connection", (client) => {
   });
 
   client.on("disconnect", () => {
-    onloneUsers--;
-    if (onloneUsers === 0) {
+    if (onlineUsers === 0) {
+      onlineUsers = 0;
       messagesArray = [];
+      userNames = [];
+    } else {
+      onlineUsers--;
     }
   });
 });

@@ -1,6 +1,9 @@
 import React from "react";
 import ChattingMainContainer from "./Chatting/ChattingMainContainer";
 import UserName from "./entrance/userName";
+import openSocket from "socket.io-client";
+
+const io = openSocket("http://localhost:5000");
 
 class App extends React.Component {
   state = {
@@ -19,9 +22,13 @@ class App extends React.Component {
           <div>
             <UserName
               username={(name) =>
-                this.setState({
-                  username: name,
-                  isloggedin: true,
+                io.emit("NewUser", name, (err, pass) => {
+                  if (pass) {
+                    this.setState({
+                      username: name,
+                      isloggedin: true,
+                    });
+                  }
                 })
               }
             />
