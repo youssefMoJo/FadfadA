@@ -6,8 +6,7 @@ const conversationBoxStyles = {
   gridTemplateColumns: "auto",
   gridGap: "10px",
   background: "linear-gradient(white, #EEEEEE)",
-  marginTop: "120px",
-  height: "500px",
+  height: "700px",
   width: "100%",
   overflow: "auto",
 };

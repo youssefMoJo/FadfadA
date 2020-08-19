@@ -24,13 +24,23 @@ class FriendMessage extends React.Component {
   render() {
     return (
       <div style={{ marginLeft: "15px", height: "auto" }}>
-        <img
-          src="bg.png"
-          alt={""}
-          width="50px"
-          height="50px"
-          style={{ borderRadius: "25px", display: "inline", float: "left" }}
-        ></img>
+        <div
+          style={{
+            borderRadius: "25px",
+            display: "inline",
+            float: "left",
+            width: "50px",
+            height: "50px",
+            backgroundColor: "#2059a5",
+            textAlign: "center",
+            lineHeight: "50px",
+          }}
+        >
+          <b style={{ fontSize: "30px", color: "white" }}>
+            {this.props.name.substring(0, 1).toUpperCase()}
+          </b>
+        </div>
+
         <div>
           <h3
             style={{
@@ -45,7 +55,19 @@ class FriendMessage extends React.Component {
           <CommentOutlined style={{ ...iconsStyles }} />
         </div>
 
-        <p style={{ ...FriendMessageStyles }}>{this.props.message}</p>
+        {this.props.message.includes("https") &&
+        this.props.message.includes("www") &&
+        this.props.message.includes("youtube") ? (
+          <a
+            style={{ ...FriendMessageStyles }}
+            href={this.props.message}
+            target="_blank"
+          >
+            {this.props.message}
+          </a>
+        ) : (
+          <p style={{ ...FriendMessageStyles }}>{this.props.message}</p>
+        )}
       </div>
     );
   }

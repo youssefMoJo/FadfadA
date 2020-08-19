@@ -25,7 +25,7 @@ const emojisBox = {
   marginBottom: "10px",
   marginLeft: "20px",
   position: "absolute",
-  top: "260px",
+  top: "350px",
 };
 
 class WritingMessageSec extends React.Component {
@@ -40,22 +40,9 @@ class WritingMessageSec extends React.Component {
   keypress(e) {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (
-        this.state.message.includes("https") &&
-        this.state.message.includes("www") &&
-        this.state.message.includes("youtube")
-      ) {
-        this.props.message(
-          <a href={this.state.message} target="_blank">
-            {this.state.message}
-          </a>
-        );
-      } else if (this.state.message.length !== 0) {
+      if (this.state.message.length !== 0) {
         this.props.message(this.state.message);
       }
-      // if (this.state.message.length !== 0) {
-      //   this.props.message(this.state.message);
-      // }
       this.setState({
         message: "",
         showEmojis: false,
@@ -71,7 +58,7 @@ class WritingMessageSec extends React.Component {
 
   render() {
     return (
-      <div style={{ marginTop: "10px", marginBottom: "70px" }}>
+      <div>
         {this.state.showEmojis ? (
           <Picker
             style={{ ...emojisBox }}

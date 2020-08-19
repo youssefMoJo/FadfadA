@@ -37,14 +37,14 @@ io.on("connection", (client) => {
   client.on("getOnlineUsers", (leave) => {
     if (leave) {
       onlineUsers--;
-      io.emit("onlineUsers", onlineUsers);
+      io.emit("onlineUsers", onlineUsers, userNames);
     } else {
-      io.emit("onlineUsers", onlineUsers);
+      io.emit("onlineUsers", onlineUsers, userNames);
     }
   });
 
   client.on("gettingAllMessages", () => {
-    client.emit("allMessages", messagesArray);
+    client.emit("allMessages", messagesArray, userNames);
   });
 
   client.on("message", (messagesArr) => {

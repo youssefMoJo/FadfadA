@@ -16,8 +16,20 @@ const myMessageStyles = {
 class MyMessage extends React.Component {
   render() {
     return (
-      <div style={{ height: "auto" }}>
-        <p style={{ ...myMessageStyles }}>{this.props.content}</p>
+      <div>
+        {this.props.content.includes("https") &&
+        this.props.content.includes("www") &&
+        this.props.content.includes("youtube") ? (
+          <a
+            style={{ ...myMessageStyles }}
+            href={this.props.content}
+            target="_blank"
+          >
+            {this.props.content}
+          </a>
+        ) : (
+          <p style={{ ...myMessageStyles }}>{this.props.content}</p>
+        )}
       </div>
     );
   }

@@ -4,6 +4,7 @@ import WritingMessageSec from "./WritingMessageSec";
 import MyMessage from "./MyMessage";
 import FriendMessage from "./FriendMessage";
 import openSocket from "socket.io-client";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 const io = openSocket("http://localhost:5000");
 
 const chattingMainContainerStyles = {
@@ -24,6 +25,8 @@ class ChattingMainContainer extends React.Component {
     message: "",
     messages: [],
     onlineUsers: 0,
+    userNames: [],
+    showUserNames: false,
   };
   messagesEndRef = React.createRef();
 
@@ -36,9 +39,10 @@ class ChattingMainContainer extends React.Component {
       });
     });
 
-    io.on("onlineUsers", (onlineUsers) => {
+    io.on("onlineUsers", (onlineUsers, userNames) => {
       this.setState({
         onlineUsers: onlineUsers,
+        userNames: userNames,
       });
     });
 
@@ -49,8 +53,11 @@ class ChattingMainContainer extends React.Component {
       () => {
         io.emit("getOnlineUsers");
         io.emit("gettingAllMessages");
-        io.on("allMessages", (messagesArr) => {
-          this.setState({ messages: [...messagesArr] }, () => {});
+        io.on("allMessages", (messagesArr, userNames) => {
+          this.setState(
+            { messages: [...messagesArr], userNames: userNames },
+            () => {}
+          );
         });
       }
     );
@@ -77,7 +84,13 @@ class ChattingMainContainer extends React.Component {
       }
     );
   }
-
+  showUserNames() {
+    if (this.state.showUserNames) {
+      this.setState({ showUserNames: false });
+    } else {
+      this.setState({ showUserNames: true });
+    }
+  }
   leave() {
     const leave = true;
     io.emit("getOnlineUsers", leave);
@@ -86,11 +99,55 @@ class ChattingMainContainer extends React.Component {
   render() {
     return (
       <div style={{ ...chattingMainContainerStyles }}>
-        <h1>{this.state.onlineUsers}</h1>
+        <div>
+          <h1
+            style={{
+              color: "#2F80ED",
+              fontSize: "48px",
+              margin: "20px",
+              fontStyle: "italic",
+            }}
+          >
+            Public Room
+          </h1>
+          <h1
+            style={{
+              color: "#2F80ED",
+              margin: "0px",
+              cursor: "pointer",
+              textAlign: " center ",
+            }}
+            onClick={() => this.showUserNames()}
+          >
+            {this.state.onlineUsers - 1} Online{" "}
+            {this.state.showUserNames ? <UpOutlined /> : <DownOutlined />}
+          </h1>
+          {this.state.showUserNames ? (
+            <div
+              style={{
+                position: "absolute",
+                marginLeft: "240px",
+                backgroundColor: "#FFFFFF",
+                width: "200px",
+                boxShadow: "5px 5px 5px 5px grey",
+                borderRadius: "50px",
+                textAlign: " center",
+                height: "250px",
+                overflow: "auto",
+              }}
+            >
+              {this.state.userNames.map((user, i) => {
+                if (user !== this.state.username) {
+                  return <h2 key={i}>{user}</h2>;
+                }
+              })}
+            </div>
+          ) : null}
+        </div>
+
         <ConversationBox>
           {this.state.messages.map((eachMessage, i) => {
             if (eachMessage.username === this.state.username) {
-              console.log(eachMessage);
               return <MyMessage key={i} content={eachMessage.message} />;
             } else {
               return (
@@ -100,27 +157,6 @@ class ChattingMainContainer extends React.Component {
                   message={eachMessage.message}
                 />
               );
-              // if (typeof eachMessage.message === "object") {
-              //   return (
-              //     <FriendMessage
-              //       key={i}
-              //       name={eachMessage.username}
-              //       message={
-              //         <a href={eachMessage.message.props.href} target="_blank">
-              //           {eachMessage.message.props.href}
-              //         </a>
-              //       }
-              //     />
-              //   );
-              // } else {
-              //   console.log("2");
-              //   return (
-              //     <FriendMessage
-              //       key={i}
-              //       name={eachMessage.username}
-              //       message={eachMessage.message}
-              //     />
-              //   );
             }
           })}
           <div ref={this.messagesEndRef} />
@@ -129,15 +165,6 @@ class ChattingMainContainer extends React.Component {
         <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
         ></WritingMessageSec>
-
-        {/* <span
-          style={{ cursor: "pointer" }}
-          onClick={() =>
-            window.open("https://www.youtube.com/watch?v=hQncT4Hswhw")
-          }
-        >
-          Software to Make Your Website Work
-        </span> */}
 
         <button onClick={this.leave}>Leave</button>
       </div>
