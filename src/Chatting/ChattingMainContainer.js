@@ -96,10 +96,13 @@ class ChattingMainContainer extends React.Component {
     io.emit("getOnlineUsers", leave);
   }
 
+  //     // `${this.state.userNames[this.state.userNames.length - 1]} joined the room`
+
   render() {
     return (
       <div style={{ ...chattingMainContainerStyles }}>
         <div>
+          {/* Public Room */}
           <h1
             style={{
               color: "#2F80ED",
@@ -110,6 +113,8 @@ class ChattingMainContainer extends React.Component {
           >
             Public Room
           </h1>
+
+          {/* HOW MANY ONLINE USER */}
           <h1
             style={{
               color: "#2F80ED",
@@ -122,6 +127,8 @@ class ChattingMainContainer extends React.Component {
             {this.state.onlineUsers - 1} Online{" "}
             {this.state.showUserNames ? <UpOutlined /> : <DownOutlined />}
           </h1>
+
+          {/* A LIST OF ALL USER NAMES  */}
           {this.state.showUserNames ? (
             <div
               style={{
@@ -148,7 +155,7 @@ class ChattingMainContainer extends React.Component {
         <ConversationBox>
           {this.state.messages.map((eachMessage, i) => {
             if (eachMessage.username === this.state.username) {
-              return <MyMessage key={i} content={eachMessage.message} />;
+              return <MyMessage key={i} message={eachMessage.message} />;
             } else {
               return (
                 <FriendMessage

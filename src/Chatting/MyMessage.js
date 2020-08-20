@@ -1,4 +1,5 @@
 import React from "react";
+import YouTube from "react-youtube";
 
 const myMessageStyles = {
   borderRadius: "35px",
@@ -11,24 +12,45 @@ const myMessageStyles = {
   float: "right",
   marginRight: "5px",
   fontSize: "25px",
+  margin: "0px",
 };
 
 class MyMessage extends React.Component {
+  _onReady(event) {
+    event.target.pauseVideo();
+  }
+  youtube_parser(url) {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return match && match[7].length == 11 ? match[7] : false;
+  }
   render() {
+    const opts = {
+      height: "200",
+      width: "400",
+    };
     return (
       <div>
-        {this.props.content.includes("https") &&
-        this.props.content.includes("www") &&
-        this.props.content.includes("youtube") ? (
+        {this.props.message.includes("https") &&
+        this.props.message.includes("www") &&
+        this.props.message.includes("youtube") ? (
+          <div style={{ ...myMessageStyles, backgroundColor: "white" }}>
+            <YouTube
+              videoId={this.youtube_parser(this.props.message)}
+              opts={opts}
+              onReady={this._onReady}
+            />
+          </div>
+        ) : this.props.message.includes("https") ? (
           <a
             style={{ ...myMessageStyles }}
-            href={this.props.content}
+            href={this.props.message}
             target="_blank"
           >
-            {this.props.content}
+            {this.props.message}
           </a>
         ) : (
-          <p style={{ ...myMessageStyles }}>{this.props.content}</p>
+          <p style={{ ...myMessageStyles }}>{this.props.message}</p>
         )}
       </div>
     );

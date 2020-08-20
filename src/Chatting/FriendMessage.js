@@ -1,5 +1,6 @@
 import React from "react";
 import { CommentOutlined } from "@ant-design/icons";
+import YouTube from "react-youtube";
 
 const FriendMessageStyles = {
   borderRadius: "35px",
@@ -11,6 +12,7 @@ const FriendMessageStyles = {
   float: "left",
   marginRight: "5px",
   fontSize: "25px",
+  margin: "0px",
 };
 const iconsStyles = {
   display: "inline",
@@ -21,7 +23,19 @@ const iconsStyles = {
 };
 
 class FriendMessage extends React.Component {
+  _onReady(event) {
+    event.target.pauseVideo();
+  }
+  youtube_parser(url) {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return match && match[7].length === 11 ? match[7] : false;
+  }
   render() {
+    const opts = {
+      height: "200",
+      width: "400",
+    };
     return (
       <div style={{ marginLeft: "15px", height: "auto" }}>
         <div
@@ -54,10 +68,17 @@ class FriendMessage extends React.Component {
           </h3>
           <CommentOutlined style={{ ...iconsStyles }} />
         </div>
-
         {this.props.message.includes("https") &&
         this.props.message.includes("www") &&
         this.props.message.includes("youtube") ? (
+          <div style={{ ...FriendMessageStyles, backgroundColor: "white" }}>
+            <YouTube
+              videoId={this.youtube_parser(this.props.message)}
+              opts={opts}
+              onReady={this._onReady}
+            />
+          </div>
+        ) : this.props.message.includes("https") ? (
           <a
             style={{ ...FriendMessageStyles }}
             href={this.props.message}
