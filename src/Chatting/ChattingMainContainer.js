@@ -27,7 +27,7 @@ class ChattingMainContainer extends React.Component {
     message: "",
     messages: [],
     onlineUsers: 0,
-    userNames: [],
+    users: {},
     showUserNames: false,
   };
   messagesEndRef = React.createRef();
@@ -41,10 +41,10 @@ class ChattingMainContainer extends React.Component {
       });
     });
 
-    io.on("onlineUsers", (onlineUsers, userNames) => {
+    io.on("onlineUsers", (onlineUsers, users) => {
       this.setState({
         onlineUsers: onlineUsers,
-        userNames: userNames,
+        users: users,
       });
     });
 
@@ -55,11 +55,8 @@ class ChattingMainContainer extends React.Component {
       () => {
         io.emit("getOnlineUsers");
         io.emit("gettingAllMessages");
-        io.on("allMessages", (messagesArr, userNames) => {
-          this.setState(
-            { messages: [...messagesArr], userNames: userNames },
-            () => {}
-          );
+        io.on("allMessages", (messagesArr, users) => {
+          this.setState({ messages: [...messagesArr], users: users }, () => {});
         });
       }
     );
@@ -98,7 +95,7 @@ class ChattingMainContainer extends React.Component {
         <RoomName roomName={"Public Room"} />
         <OnlineUsers
           onlineUsers={this.state.onlineUsers}
-          userNames={this.state.userNames}
+          users={this.state.users}
           userName={this.state.username}
         />
 

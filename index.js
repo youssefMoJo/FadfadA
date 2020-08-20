@@ -5,7 +5,7 @@ const cors = require("cors");
 const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server);
-
+var jwt = require("jsonwebtoken");
 app.use(cors());
 app.use(express.json());
 
@@ -21,15 +21,16 @@ app.use(function (req, res, next) {
 
 let messagesArray = [];
 let onlineUsers = 0;
-let userNames = [];
 let users = {};
+
 io.on("connection", (client) => {
-  client.on("NewUser", (username, callback) => {
-    if (userNames.includes(username)) {
+  client.on("NewUser", (username, password, callback) => {
+    if (users[username]) {
       callback(true);
     } else {
       onlineUsers++;
-      userNames.push(username);
+      let name = username;
+      users[name] = { password };
       callback(false, true);
     }
   });
@@ -37,14 +38,14 @@ io.on("connection", (client) => {
   client.on("getOnlineUsers", (leave) => {
     if (leave) {
       onlineUsers--;
-      io.emit("onlineUsers", onlineUsers, userNames);
+      io.emit("onlineUsers", onlineUsers, users);
     } else {
-      io.emit("onlineUsers", onlineUsers, userNames);
+      io.emit("onlineUsers", onlineUsers, users);
     }
   });
 
   client.on("gettingAllMessages", () => {
-    client.emit("allMessages", messagesArray, userNames);
+    client.emit("allMessages", messagesArray, users);
   });
 
   client.on("message", (messagesArr) => {
@@ -56,7 +57,7 @@ io.on("connection", (client) => {
     if (onlineUsers === 0) {
       onlineUsers = 0;
       messagesArray = [];
-      userNames = [];
+      users = {};
     } else {
       onlineUsers--;
     }

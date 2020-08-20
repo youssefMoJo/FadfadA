@@ -22,7 +22,7 @@ class App extends React.Component {
           <div>
             <Entrance
               formInformation={(name, password) =>
-                io.emit("NewUser", name, (err, pass) => {
+                io.emit("NewUser", name, password, (err, pass) => {
                   if (pass) {
                     this.setState({
                       username: name,
