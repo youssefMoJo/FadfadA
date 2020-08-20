@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserName = (props) => {
+const Entrance = (props) => {
   const userNameModel = {
     backgroundColor: "white",
     position: "absolute",
@@ -9,14 +9,21 @@ const UserName = (props) => {
     height: "100px",
     width: "200px",
   };
+
   let name = "";
+  let password = "";
+
   const username = (e) => {
     name = e.target.value;
   };
 
+  const Password = (e) => {
+    password = e.target.value;
+  };
+
   const sendName = (e) => {
     e.preventDefault();
-    props.username(name);
+    props.formInformation(name, password);
   };
 
   return (
@@ -25,10 +32,18 @@ const UserName = (props) => {
         <label>User Name : </label>
         <input placeholder="Your Name" onChange={(e) => username(e)} required />
 
+        <label>Password : </label>
+        <input
+          placeholder="Password"
+          onChange={(e) => Password(e)}
+          type="password"
+          required
+        />
+
         <input type="submit"></input>
       </form>
     </div>
   );
 };
 
-export default UserName;
+export default Entrance;

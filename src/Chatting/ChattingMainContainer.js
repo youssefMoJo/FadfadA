@@ -18,6 +18,7 @@ const chattingMainContainerStyles = {
   marginTop: "100px",
   width: "700px",
   borderRadius: "30px 30px 0px 0px",
+  float: "left",
 };
 
 class ChattingMainContainer extends React.Component {
