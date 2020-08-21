@@ -14,9 +14,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        {this.state.isloggedin ? (
+        {localStorage.getItem("userOnline") ? (
           <div>
-            <ChattingMainContainer name={this.state.username} />
+            <ChattingMainContainer name={localStorage.getItem("username")} />
           </div>
         ) : (
           <div>
@@ -24,6 +24,8 @@ class App extends React.Component {
               formInformation={(name, password) =>
                 io.emit("NewUser", name, password, (err, pass) => {
                   if (pass) {
+                    localStorage.setItem("userOnline", true);
+                    localStorage.setItem("username", name);
                     this.setState({
                       username: name,
                       isloggedin: true,

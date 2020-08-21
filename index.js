@@ -30,7 +30,15 @@ io.on("connection", (client) => {
     } else {
       onlineUsers++;
       let name = username;
-      users[name] = { password };
+      users[name] = { password, online: true };
+      callback(false, true);
+    }
+  });
+
+  client.on("isTheUserOnline", (username, callback) => {
+    if (users[username].online) {
+      callback(true);
+    } else {
       callback(false, true);
     }
   });
