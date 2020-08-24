@@ -92,7 +92,7 @@ class ChattingMainContainer extends React.Component {
 
   leave() {
     const leave = true;
-    io.emit("getOnlineUsers", leave);
+    io.emit("getOnlineUsers", leave, this.state.username);
     localStorage.removeItem("userOnline");
     localStorage.removeItem("username");
     this.setState({ isloggedin: false });

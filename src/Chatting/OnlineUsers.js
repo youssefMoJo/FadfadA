@@ -65,9 +65,9 @@ class OnlineUsers extends React.Component {
               overflow: "auto",
             }}
           >
-            {Object.keys(this.props.users).map((userName, i) => {
-              if (userName !== this.props.userName) {
-                return <h2 key={i}>{userName}</h2>;
+            {Object.values(this.props.users).map((user, i) => {
+              if (user.name !== this.props.userName && user.online) {
+                return <h2 key={i}>{user.name}</h2>;
               }
             })}
           </div>

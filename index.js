@@ -30,14 +30,15 @@ io.on("connection", (client) => {
     } else {
       onlineUsers++;
       let name = username;
-      users[name] = { password, online: true };
+      users[name] = { password, online: true, name };
       callback(false, true);
     }
   });
 
-  client.on("getOnlineUsers", (leave) => {
+  client.on("getOnlineUsers", (leave, userName) => {
     if (leave) {
       onlineUsers--;
+      users[userName].online = false;
       io.emit("onlineUsers", onlineUsers, users);
     } else {
       io.emit("onlineUsers", onlineUsers, users);
