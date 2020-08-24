@@ -22,7 +22,7 @@ class MyMessage extends React.Component {
   youtube_parser(url) {
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return match && match[7].length == 11 ? match[7] : false;
+    return match && match[7].length === 11 ? match[7] : false;
   }
   render() {
     const opts = {
@@ -46,6 +46,7 @@ class MyMessage extends React.Component {
             style={{ ...myMessageStyles }}
             href={this.props.message}
             target="_blank"
+            rel="noopener noreferrer"
           >
             {this.props.message}
           </a>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Entrance = (props) => {
+const Authenticate = (props) => {
   const userNameModel = {
     backgroundColor: "white",
     position: "absolute",
@@ -46,4 +46,4 @@ const Entrance = (props) => {
   );
 };
 
-export default Entrance;
+export default Authenticate;

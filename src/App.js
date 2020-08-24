@@ -1,41 +1,27 @@
 import React from "react";
+import Home from "./entrance/Home";
 import ChattingMainContainer from "./Chatting/ChattingMainContainer";
-import Entrance from "./entrance/Entrance";
-import openSocket from "socket.io-client";
 
-const io = openSocket("http://localhost:5000");
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  withRouter,
+} from "react-router-dom";
 
 class App extends React.Component {
-  state = {
-    username: "",
-    isloggedin: false,
-  };
-
   render() {
     return (
       <div>
-        {localStorage.getItem("userOnline") ? (
-          <div>
-            <ChattingMainContainer name={localStorage.getItem("username")} />
-          </div>
-        ) : (
-          <div>
-            <Entrance
-              formInformation={(name, password) =>
-                io.emit("NewUser", name, password, (err, pass) => {
-                  if (pass) {
-                    localStorage.setItem("userOnline", true);
-                    localStorage.setItem("username", name);
-                    this.setState({
-                      username: name,
-                      isloggedin: true,
-                    });
-                  }
-                })
-              }
+        <Router>
+          <Switch>
+            <Route path="/" exact component={withRouter(Home)} />
+            <Route
+              path="/chatting"
+              component={withRouter(ChattingMainContainer)}
             />
-          </div>
-        )}
+          </Switch>
+        </Router>
       </div>
     );
   }

@@ -6,7 +6,11 @@ import FriendMessage from "./FriendMessage";
 import openSocket from "socket.io-client";
 import OnlineUsers from "../Chatting/OnlineUsers";
 import RoomName from "../Chatting/RoomName";
+import { Link } from "react-router-dom";
+import { createHashHistory } from "history";
+
 const io = openSocket("http://localhost:5000");
+const history = createHashHistory();
 
 const chattingMainContainerStyles = {
   display: "flex",
@@ -29,6 +33,7 @@ class ChattingMainContainer extends React.Component {
     onlineUsers: 0,
     users: {},
     showUserNames: false,
+    isloggedin: false,
   };
   messagesEndRef = React.createRef();
 
@@ -51,6 +56,7 @@ class ChattingMainContainer extends React.Component {
     this.setState(
       {
         username: this.props.name,
+        isloggedin: true,
       },
       () => {
         io.emit("getOnlineUsers");
@@ -87,6 +93,10 @@ class ChattingMainContainer extends React.Component {
   leave() {
     const leave = true;
     io.emit("getOnlineUsers", leave);
+    localStorage.removeItem("userOnline");
+    localStorage.removeItem("username");
+    this.setState({ isloggedin: false });
+    history.push("/");
   }
 
   render() {
@@ -120,7 +130,7 @@ class ChattingMainContainer extends React.Component {
           message={(mes) => this.presentMessage(mes)}
         ></WritingMessageSec>
 
-        <button onClick={this.leave}>Leave</button>
+        <button onClick={() => this.leave()}>Leave</button>
       </div>
     );
   }

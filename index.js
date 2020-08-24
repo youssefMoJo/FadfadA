@@ -35,14 +35,6 @@ io.on("connection", (client) => {
     }
   });
 
-  client.on("isTheUserOnline", (username, callback) => {
-    if (users[username].online) {
-      callback(true);
-    } else {
-      callback(false, true);
-    }
-  });
-
   client.on("getOnlineUsers", (leave) => {
     if (leave) {
       onlineUsers--;
@@ -66,8 +58,6 @@ io.on("connection", (client) => {
       onlineUsers = 0;
       messagesArray = [];
       users = {};
-    } else {
-      onlineUsers--;
     }
   });
 });

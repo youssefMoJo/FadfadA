@@ -83,6 +83,7 @@ class FriendMessage extends React.Component {
             style={{ ...FriendMessageStyles }}
             href={this.props.message}
             target="_blank"
+            rel="noopener noreferrer"
           >
             {this.props.message}
           </a>
