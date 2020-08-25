@@ -27,15 +27,21 @@ io.on("connection", (client) => {
   client.on("NewUser", (userName, password, callback) => {
     if (users[userName]) {
       if (users[userName].password === password) {
-        onlineUsers++;
-        users[userName].online = true;
-        callback(false, true);
+        if (users[userName].online === false) {
+          users[userName].OnlineDevices = 1;
+          onlineUsers++;
+          users[userName].online = true;
+          callback(false, true);
+        } else {
+          users[userName].OnlineDevices = users[userName].OnlineDevices + 1;
+          callback(false, true);
+        }
       }
       callback(true);
     } else {
       onlineUsers++;
       let name = userName;
-      users[name] = { password, online: true, name };
+      users[name] = { password, online: true, name, OnlineDevices: 1 };
       callback(false, true);
     }
   });
@@ -44,6 +50,8 @@ io.on("connection", (client) => {
     if (leave) {
       onlineUsers--;
       users[userName].online = false;
+      users[userName].OnlineDevices = users[userName].OnlineDevices - 1;
+      console.log(users);
       io.emit("onlineUsers", onlineUsers, users);
     } else {
       io.emit("onlineUsers", onlineUsers, users);
