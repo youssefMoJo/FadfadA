@@ -6,6 +6,11 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server);
 const bcrypt = require("bcryptjs");
+const { Upload } = require("antd");
+const multer = require("multer");
+const fs = require("fs");
+const axios = require("axios");
+
 app.use(cors());
 app.use(express.json());
 
@@ -18,10 +23,31 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./src/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+let upload = multer({ storage: storage }).single("file");
+
 const salt = bcrypt.genSaltSync(10);
 let messagesArray = [];
 let onlineUsers = 0;
 let users = {};
+
+app.post("/upload/imageOrVideo", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({ success: true, url: res.req.file.path });
+  });
+});
 
 io.on("connection", (client) => {
   client.on("NewUser", (userName, password, callback) => {

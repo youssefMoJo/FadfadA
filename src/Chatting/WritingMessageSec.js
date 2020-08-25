@@ -1,7 +1,9 @@
 import React from "react";
-import { SmileOutlined, PaperClipOutlined } from "@ant-design/icons";
+import { SmileOutlined, UploadOutlined } from "@ant-design/icons";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
+import Dropzone from "react-dropzone";
+import axios from "axios";
 
 const inputStyles = {
   width: "85%",
@@ -55,6 +57,23 @@ class WritingMessageSec extends React.Component {
       message: this.state.message + emoji,
     });
   };
+  onDrop = (files) => {
+    let formData = new FormData();
+
+    const config = {
+      header: { "content-type": "multipart/form-data" },
+    };
+
+    formData.append("file", files[0]);
+
+    axios
+      .post("http://localhost:5000/upload/imageOrVideo", formData, config)
+      .then((res) => {
+        if (res.data.success) {
+          console.log(res.data.url);
+        }
+      });
+  };
 
   render() {
     return (
@@ -87,7 +106,16 @@ class WritingMessageSec extends React.Component {
           style={{ ...iconsStyles }}
         />
 
-        <PaperClipOutlined style={{ ...iconsStyles }} />
+        <Dropzone onDrop={this.onDrop}>
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <UploadOutlined style={{ ...iconsStyles }} />
+              </div>
+            </section>
+          )}
+        </Dropzone>
       </div>
     );
   }
