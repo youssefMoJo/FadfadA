@@ -69,6 +69,7 @@ class OnlineUsers extends React.Component {
               if (user.name !== this.props.userName && user.online) {
                 return <h2 key={i}>{user.name}</h2>;
               }
+              return null;
             })}
           </div>
         ) : null}

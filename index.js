@@ -24,12 +24,17 @@ let onlineUsers = 0;
 let users = {};
 
 io.on("connection", (client) => {
-  client.on("NewUser", (username, password, callback) => {
-    if (users[username]) {
+  client.on("NewUser", (userName, password, callback) => {
+    if (users[userName]) {
+      if (users[userName].password === password) {
+        onlineUsers++;
+        users[userName].online = true;
+        callback(false, true);
+      }
       callback(true);
     } else {
       onlineUsers++;
-      let name = username;
+      let name = userName;
       users[name] = { password, online: true, name };
       callback(false, true);
     }

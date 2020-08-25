@@ -6,7 +6,6 @@ import FriendMessage from "./FriendMessage";
 import openSocket from "socket.io-client";
 import OnlineUsers from "../Chatting/OnlineUsers";
 import RoomName from "../Chatting/RoomName";
-import { Link } from "react-router-dom";
 import { createHashHistory } from "history";
 
 const io = openSocket("http://localhost:5000");
@@ -38,6 +37,8 @@ class ChattingMainContainer extends React.Component {
   messagesEndRef = React.createRef();
 
   componentDidMount() {
+    history.push("/chatting");
+
     this.scrollToBottom();
 
     io.on("theMessage", (messagesArr) => {

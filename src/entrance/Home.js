@@ -2,10 +2,8 @@ import React from "react";
 import ChattingMainContainer from "../Chatting/ChattingMainContainer";
 import Authenticate from "../entrance/Authenticate";
 import openSocket from "socket.io-client";
-import { createHashHistory } from "history";
 
 const io = openSocket("http://localhost:5000");
-const history = createHashHistory();
 
 class Home extends React.Component {
   state = {
@@ -18,7 +16,6 @@ class Home extends React.Component {
         <div>
           {localStorage.getItem("userOnline") ? (
             <div>
-              {history.push("/chatting")}
               <ChattingMainContainer name={localStorage.getItem("username")} />
             </div>
           ) : (
