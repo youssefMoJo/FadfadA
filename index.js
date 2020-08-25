@@ -48,10 +48,11 @@ io.on("connection", (client) => {
 
   client.on("getOnlineUsers", (leave, userName) => {
     if (leave) {
-      onlineUsers--;
-      users[userName].online = false;
       users[userName].OnlineDevices = users[userName].OnlineDevices - 1;
-      console.log(users);
+      if (users[userName].OnlineDevices === 0) {
+        onlineUsers--;
+        users[userName].online = false;
+      }
       io.emit("onlineUsers", onlineUsers, users);
     } else {
       io.emit("onlineUsers", onlineUsers, users);
