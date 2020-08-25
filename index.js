@@ -5,7 +5,7 @@ const cors = require("cors");
 const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server);
-var jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 app.use(cors());
 app.use(express.json());
 
@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
+const salt = bcrypt.genSaltSync(10);
 let messagesArray = [];
 let onlineUsers = 0;
 let users = {};
@@ -26,7 +26,11 @@ let users = {};
 io.on("connection", (client) => {
   client.on("NewUser", (userName, password, callback) => {
     if (users[userName]) {
-      if (users[userName].password === password) {
+      let passwordChecking = bcrypt.compareSync(
+        password,
+        users[userName].password
+      );
+      if (passwordChecking) {
         if (users[userName].online === false) {
           users[userName].OnlineDevices = 1;
           onlineUsers++;
@@ -41,7 +45,13 @@ io.on("connection", (client) => {
     } else {
       onlineUsers++;
       let name = userName;
-      users[name] = { password, online: true, name, OnlineDevices: 1 };
+      let hashedPassword = bcrypt.hashSync(password, salt);
+      users[name] = {
+        password: hashedPassword,
+        online: true,
+        name,
+        OnlineDevices: 1,
+      };
       callback(false, true);
     }
   });
