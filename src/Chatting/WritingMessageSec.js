@@ -70,7 +70,7 @@ class WritingMessageSec extends React.Component {
       .post("http://localhost:5000/upload/imageOrVideo", formData, config)
       .then((res) => {
         if (res.data.success) {
-          console.log(res.data.url);
+          this.props.message(res.data.url);
         }
       });
   };

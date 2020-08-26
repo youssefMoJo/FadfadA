@@ -31,6 +31,9 @@ class MyMessage extends React.Component {
     };
     return (
       <div>
+        {console.log(
+          this.props.message.substring(12, this.props.message.length)
+        )}
         {this.props.message.includes("https") &&
         this.props.message.includes("www") &&
         this.props.message.includes("youtube") ? (
@@ -50,6 +53,31 @@ class MyMessage extends React.Component {
           >
             {this.props.message}
           </a>
+        ) : this.props.message.substring(4, 11) === "uploads" ? (
+          this.props.message.substring(
+            this.props.message.length - 3,
+            this.props.message.length
+          ) === "mp4" ? (
+            <video
+              style={{ maxWidth: "200px" }}
+              src={require(`.././uploads/${this.props.message.substring(
+                12,
+                this.props.message.length
+              )}`)}
+              alt="Video"
+              type="video/mp4"
+              controls
+            />
+          ) : (
+            <img
+              style={{ maxWidth: "200px" }}
+              src={require(`.././uploads/${this.props.message.substring(
+                12,
+                this.props.message.length
+              )}`)}
+              alt="Img"
+            />
+          )
         ) : (
           <p style={{ ...myMessageStyles }}>{this.props.message}</p>
         )}

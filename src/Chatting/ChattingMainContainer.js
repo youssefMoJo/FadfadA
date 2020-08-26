@@ -124,6 +124,7 @@ class ChattingMainContainer extends React.Component {
               );
             }
           })}
+
           <div ref={this.messagesEndRef} />
         </ConversationBox>
 
