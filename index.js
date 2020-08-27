@@ -6,10 +6,7 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server);
 const bcrypt = require("bcryptjs");
-const { Upload } = require("antd");
 const multer = require("multer");
-const fs = require("fs");
-const axios = require("axios");
 
 app.use(cors());
 app.use(express.json());
@@ -34,21 +31,50 @@ let storage = multer.diskStorage({
   },
 });
 
-let upload = multer({ storage: storage }).single("file");
+const imageFilter = function (req, file, cb) {
+  // Accept images only
+  if (
+    !file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|mp4|MP4)$/)
+  ) {
+    req.fileValidationError = "Only image files are allowed!";
+    return cb(new Error("Only image files are allowed!"), false);
+  }
+  cb(null, true);
+};
+
+let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
+  "file"
+);
+
+const videoFormats = ["mp4", "MP4"];
+
+app.post("/upload/imageOrVideo", (req, res) => {
+  upload(req, res, function (err) {
+    if (err) {
+      return res.json({ success: false, err });
+    } else if (
+      videoFormats.includes(
+        res.req.file.path.substring(
+          res.req.file.path.length - 3,
+          res.req.file.path.length
+        )
+      )
+    ) {
+      setTimeout(function () {
+        return res.json({ success: true, url: res.req.file.path });
+      }, 10000);
+    } else {
+      setTimeout(function () {
+        return res.json({ success: true, url: res.req.file.path });
+      }, 3000);
+    }
+  });
+});
 
 const salt = bcrypt.genSaltSync(10);
 let messagesArray = [];
 let onlineUsers = 0;
 let users = {};
-
-app.post("/upload/imageOrVideo", (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      return res.json({ success: false, err });
-    }
-    return res.json({ success: true, url: res.req.file.path });
-  });
-});
 
 io.on("connection", (client) => {
   client.on("NewUser", (userName, password, callback) => {

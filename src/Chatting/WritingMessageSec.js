@@ -71,6 +71,8 @@ class WritingMessageSec extends React.Component {
       .then((res) => {
         if (res.data.success) {
           this.props.message(res.data.url);
+        } else {
+          this.props.message("noo");
         }
       });
   };

@@ -29,11 +29,11 @@ class MyMessage extends React.Component {
       height: "200",
       width: "400",
     };
+    const videoFormats = ["mp4", "MP4"];
+    const imageFormats = ["JPEG ", "JPG", "PNG "];
+
     return (
       <div>
-        {console.log(
-          this.props.message.substring(12, this.props.message.length)
-        )}
         {this.props.message.includes("https") &&
         this.props.message.includes("www") &&
         this.props.message.includes("youtube") ? (
@@ -54,12 +54,18 @@ class MyMessage extends React.Component {
             {this.props.message}
           </a>
         ) : this.props.message.substring(4, 11) === "uploads" ? (
-          this.props.message.substring(
-            this.props.message.length - 3,
-            this.props.message.length
-          ) === "mp4" ? (
+          videoFormats.includes(
+            this.props.message.substring(
+              this.props.message.length - 3,
+              this.props.message.length
+            )
+          ) ? (
             <video
-              style={{ maxWidth: "200px" }}
+              style={{
+                ...myMessageStyles,
+                maxWidth: "200px",
+                backgroundColor: "white",
+              }}
               src={require(`.././uploads/${this.props.message.substring(
                 12,
                 this.props.message.length
@@ -68,16 +74,25 @@ class MyMessage extends React.Component {
               type="video/mp4"
               controls
             />
-          ) : (
+          ) : imageFormats.includes(
+              this.props.message.substring(
+                this.props.message.length - 3,
+                this.props.message.length
+              )
+            ) ? (
             <img
-              style={{ maxWidth: "200px" }}
+              style={{
+                ...myMessageStyles,
+                maxWidth: "200px",
+                backgroundColor: "white",
+              }}
               src={require(`.././uploads/${this.props.message.substring(
                 12,
                 this.props.message.length
               )}`)}
               alt="Img"
             />
-          )
+          ) : null
         ) : (
           <p style={{ ...myMessageStyles }}>{this.props.message}</p>
         )}
