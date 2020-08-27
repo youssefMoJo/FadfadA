@@ -109,11 +109,18 @@ class ChattingMainContainer extends React.Component {
           users={this.state.users}
           userName={this.state.username}
         />
-
         <ConversationBox>
           {this.state.messages.map((eachMessage, i) => {
             if (eachMessage.username === this.state.username) {
-              return <MyMessage key={i} message={eachMessage.message} />;
+              return (
+                <MyMessage
+                  key={i}
+                  message={eachMessage.message}
+                  onClick={() => {
+                    console.log(eachMessage.message);
+                  }}
+                />
+              );
             } else {
               return (
                 <FriendMessage
@@ -127,11 +134,9 @@ class ChattingMainContainer extends React.Component {
 
           <div ref={this.messagesEndRef} />
         </ConversationBox>
-
         <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
         ></WritingMessageSec>
-
         <button onClick={() => this.leave()}>Leave</button>
       </div>
     );

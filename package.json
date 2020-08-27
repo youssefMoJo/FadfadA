@@ -24,6 +24,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.3",
+    "react-modal-image": "^2.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-youtube": "^7.11.3",

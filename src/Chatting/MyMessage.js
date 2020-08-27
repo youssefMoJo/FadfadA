@@ -1,5 +1,6 @@
 import React from "react";
 import YouTube from "react-youtube";
+import ModalImage from "react-modal-image";
 
 const myMessageStyles = {
   borderRadius: "35px",
@@ -30,7 +31,6 @@ class MyMessage extends React.Component {
       width: "400",
     };
     const videoFormats = ["mp4", "MP4"];
-    const imageFormats = ["JPEG ", "JPG", "PNG "];
 
     return (
       <div>
@@ -74,25 +74,27 @@ class MyMessage extends React.Component {
               type="video/mp4"
               controls
             />
-          ) : imageFormats.includes(
-              this.props.message.substring(
-                this.props.message.length - 3,
-                this.props.message.length
-              )
-            ) ? (
-            <img
+          ) : (
+            <div
               style={{
                 ...myMessageStyles,
                 maxWidth: "200px",
                 backgroundColor: "white",
               }}
-              src={require(`.././uploads/${this.props.message.substring(
-                12,
-                this.props.message.length
-              )}`)}
-              alt="Img"
-            />
-          ) : null
+            >
+              <ModalImage
+                small={require(`.././uploads/${this.props.message.substring(
+                  12,
+                  this.props.message.length
+                )}`)}
+                large={require(`.././uploads/${this.props.message.substring(
+                  12,
+                  this.props.message.length
+                )}`)}
+                alt="Picture"
+              />
+            </div>
+          )
         ) : (
           <p style={{ ...myMessageStyles }}>{this.props.message}</p>
         )}
