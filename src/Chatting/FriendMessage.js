@@ -1,6 +1,7 @@
 import React from "react";
 import { CommentOutlined } from "@ant-design/icons";
 import YouTube from "react-youtube";
+import ModalImage from "react-modal-image";
 
 const FriendMessageStyles = {
   borderRadius: "35px",
@@ -13,6 +14,7 @@ const FriendMessageStyles = {
   marginRight: "5px",
   fontSize: "25px",
   margin: "0px",
+  outline: "none",
 };
 const iconsStyles = {
   display: "inline",
@@ -31,11 +33,14 @@ class FriendMessage extends React.Component {
     var match = url.match(regExp);
     return match && match[7].length === 11 ? match[7] : false;
   }
+
   render() {
     const opts = {
       height: "200",
       width: "400",
     };
+    const videoFormats = ["mp4", "MP4"];
+
     return (
       <div style={{ marginLeft: "15px", height: "auto" }}>
         <div
@@ -68,6 +73,7 @@ class FriendMessage extends React.Component {
           </h3>
           <CommentOutlined style={{ ...iconsStyles }} />
         </div>
+
         {this.props.message.includes("https") &&
         this.props.message.includes("www") &&
         this.props.message.includes("youtube") ? (
@@ -87,6 +93,48 @@ class FriendMessage extends React.Component {
           >
             {this.props.message}
           </a>
+        ) : this.props.message.substring(4, 11) === "uploads" ? (
+          videoFormats.includes(
+            this.props.message.substring(
+              this.props.message.length - 3,
+              this.props.message.length
+            )
+          ) ? (
+            <video
+              style={{
+                ...FriendMessageStyles,
+                maxWidth: "200px",
+                backgroundColor: "white",
+              }}
+              src={require(`.././uploads/${this.props.message.substring(
+                12,
+                this.props.message.length
+              )}`)}
+              alt="Video"
+              type="video/mp4"
+              controls
+            />
+          ) : (
+            <div
+              style={{
+                ...FriendMessageStyles,
+                maxWidth: "200px",
+                backgroundColor: "white",
+              }}
+            >
+              <ModalImage
+                small={require(`.././uploads/${this.props.message.substring(
+                  12,
+                  this.props.message.length
+                )}`)}
+                large={require(`.././uploads/${this.props.message.substring(
+                  12,
+                  this.props.message.length
+                )}`)}
+                alt="Picture"
+              />
+            </div>
+          )
         ) : (
           <p style={{ ...FriendMessageStyles }}>{this.props.message}</p>
         )}

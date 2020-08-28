@@ -41,33 +41,40 @@ const imageFilter = function (req, file, cb) {
   }
   cb(null, true);
 };
-
 let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
   "file"
 );
 
 const videoFormats = ["mp4", "MP4"];
+const uploadedFiles = [];
 
 app.post("/upload/imageOrVideo", (req, res) => {
   upload(req, res, function (err) {
     if (err) {
       return res.json({ success: false, err });
-    } else if (
-      videoFormats.includes(
-        res.req.file.path.substring(
-          res.req.file.path.length - 3,
-          res.req.file.path.length
-        )
-      )
-    ) {
-      setTimeout(function () {
-        return res.json({ success: true, url: res.req.file.path });
-      }, 10000);
-    } else {
-      setTimeout(function () {
-        return res.json({ success: true, url: res.req.file.path });
-      }, 3000);
     }
+    uploadedFiles.push(res.req.file.path);
+    // setTimeout(function () {
+    return res.json({ success: true, url: res.req.file.path });
+    // }, 3000);
+
+    //  else if (
+    //   videoFormats.includes(
+    //     res.req.file.path.substring(
+    //       res.req.file.path.length - 3,
+    //       res.req.file.path.length
+    //     )
+    //   )
+    // )
+    // {
+    //   // setTimeout(function () {
+    //   //   return res.json({ success: true, url: res.req.file.path });
+    //   // }, 10000);
+    // } else {
+    //   // setTimeout(function () {
+    //   //   return res.json({ success: true, url: res.req.file.path });
+    //   // }, 3000);
+    // }
   });
 });
 

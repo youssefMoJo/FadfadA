@@ -9,10 +9,34 @@ class Home extends React.Component {
   state = {
     isloggedin: false,
   };
-
+  loadFile = function (event) {
+    var image = document.getElementById("output");
+    image.src = URL.createObjectURL(event.target.files[0]);
+  };
   render() {
     return (
       <div>
+        <div style={{ backgroundColor: "white", height: "100px" }}>
+          <p>
+            <input
+              type="file"
+              accept="image/*"
+              name="image"
+              id="file"
+              onChange={(e) => this.loadFile(e)}
+              style={{ display: "none" }}
+            />
+          </p>
+          <p>
+            <label htmlFor="file" style={{ cursor: "cursor" }}>
+              Upload Image
+            </label>
+          </p>
+          <p>
+            <img id="output" width="200" />
+          </p>
+        </div>
+
         <div>
           {localStorage.getItem("userOnline") ? (
             <div>

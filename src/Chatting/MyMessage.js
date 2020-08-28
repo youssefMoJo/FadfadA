@@ -14,6 +14,7 @@ const myMessageStyles = {
   marginRight: "5px",
   fontSize: "25px",
   margin: "0px",
+  outline: "none",
 };
 
 class MyMessage extends React.Component {

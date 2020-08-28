@@ -4,23 +4,28 @@ import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 import Dropzone from "react-dropzone";
 import axios from "axios";
+import { Progress } from "reactstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inputStyles = {
   width: "85%",
-  borderRadius: "20px",
+  borderRadius: "10px",
   float: "right",
   resize: "none",
   textAlign: "center",
   outline: "none",
   marginRight: "10px",
-  height: "35px",
+  height: "50px",
   fontSize: "20px",
+  overflow: "auto",
 };
 const iconsStyles = {
   display: "inline",
   fontSize: "30px",
   marginLeft: "10px",
   outline: "none",
+  paddingTop: "10px",
 };
 const emojisBox = {
   borderRadius: "50px",
@@ -28,12 +33,16 @@ const emojisBox = {
   marginLeft: "20px",
   position: "absolute",
   top: "350px",
+  outline: "none",
 };
 
 class WritingMessageSec extends React.Component {
   state = {
     message: "",
     showEmojis: false,
+    loaded: 0,
+    image: "",
+    readyToSend: false,
   };
 
   handleChange(event) {
@@ -57,11 +66,17 @@ class WritingMessageSec extends React.Component {
       message: this.state.message + emoji,
     });
   };
+
   onDrop = (files) => {
     let formData = new FormData();
 
     const config = {
       header: { "content-type": "multipart/form-data" },
+      onUploadProgress: (ProgressEvent) => {
+        this.setState({
+          loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+        });
+      },
     };
 
     formData.append("file", files[0]);
@@ -70,11 +85,19 @@ class WritingMessageSec extends React.Component {
       .post("http://localhost:5000/upload/imageOrVideo", formData, config)
       .then((res) => {
         if (res.data.success) {
-          this.props.message(res.data.url);
+          toast.success("upload success");
+          this.setState({ loaded: 0, image: res.data.url, readyToSend: true });
+          // this.props.message(res.data.url);
         } else {
-          this.props.message("noo");
+          this.setState({ loaded: 0 });
+          toast.error("this type is not Allowed !!");
         }
       });
+  };
+
+  sendTheFile = () => {
+    this.props.message(this.state.image);
+    this.setState({ readyToSend: false });
   };
 
   render() {
@@ -108,16 +131,33 @@ class WritingMessageSec extends React.Component {
           style={{ ...iconsStyles }}
         />
 
-        <Dropzone onDrop={this.onDrop}>
-          {({ getRootProps, getInputProps }) => (
-            <section>
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <UploadOutlined style={{ ...iconsStyles }} />
-              </div>
-            </section>
-          )}
-        </Dropzone>
+        <div style={{ display: "inline-flex" }}>
+          <Dropzone onDrop={this.onDrop}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <div style={{ outline: "none" }} {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <UploadOutlined style={{ ...iconsStyles }} />
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        </div>
+
+        <div className="form-group">
+          <Progress
+            style={{ ...iconsStyles }}
+            max="100"
+            color="success"
+            value={this.state.loaded}
+          >
+            {Math.round(this.state.loaded, 2)}%
+          </Progress>
+          <ToastContainer />
+          <button onClick={this.sendTheFile} disabled={!this.state.readyToSend}>
+            Send It
+          </button>
+        </div>
       </div>
     );
   }
