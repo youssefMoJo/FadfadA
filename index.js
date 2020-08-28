@@ -6,7 +6,7 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server);
 const bcrypt = require("bcryptjs");
-const multer = require("multer");
+const uploading = require("./backend/uploading");
 
 app.use(cors());
 app.use(express.json());
@@ -19,63 +19,6 @@ app.use(function (req, res, next) {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
-});
-
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./src/uploads");
-  },
-  filename: function (req, file, cb) {
-    // cb(null, `${Date.now()}_${file.originalname}`);
-    cb(null, file.originalname);
-  },
-});
-
-const imageFilter = function (req, file, cb) {
-  // Accept images only
-  if (
-    !file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|mp4|MP4)$/)
-  ) {
-    req.fileValidationError = "Only image files are allowed!";
-    return cb(new Error("Only image files are allowed!"), false);
-  }
-  cb(null, true);
-};
-let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
-  "file"
-);
-
-const videoFormats = ["mp4", "MP4"];
-const uploadedFiles = [];
-
-app.post("/upload/imageOrVideo", (req, res) => {
-  upload(req, res, function (err) {
-    if (err) {
-      return res.json({ success: false, err });
-    }
-    uploadedFiles.push(res.req.file.path);
-    // setTimeout(function () {
-    return res.json({ success: true, url: res.req.file.path });
-    // }, 3000);
-
-    //  else if (
-    //   videoFormats.includes(
-    //     res.req.file.path.substring(
-    //       res.req.file.path.length - 3,
-    //       res.req.file.path.length
-    //     )
-    //   )
-    // )
-    // {
-    //   // setTimeout(function () {
-    //   //   return res.json({ success: true, url: res.req.file.path });
-    //   // }, 10000);
-    // } else {
-    //   // setTimeout(function () {
-    //   //   return res.json({ success: true, url: res.req.file.path });
-    //   // }, 3000);
-    // }
-  });
 });
 
 const salt = bcrypt.genSaltSync(10);
@@ -146,6 +89,7 @@ io.on("connection", (client) => {
     }
   });
 });
+app.use(uploading);
 
 server.listen(5000, () => {
   console.log("the server is running ");
