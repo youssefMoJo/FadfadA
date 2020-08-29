@@ -2,7 +2,7 @@ import React from "react";
 import ChattingMainContainer from "../Chatting/ChattingMainContainer";
 import Authenticate from "../entrance/Authenticate";
 import openSocket from "socket.io-client";
-
+import NavBar from "../NavBar/NavBar";
 const io = openSocket("http://localhost:5000");
 
 class Home extends React.Component {
@@ -17,6 +17,7 @@ class Home extends React.Component {
           {localStorage.getItem("userOnline") ? (
             <div>
               <ChattingMainContainer name={localStorage.getItem("username")} />
+              <NavBar />
             </div>
           ) : (
             <div>
