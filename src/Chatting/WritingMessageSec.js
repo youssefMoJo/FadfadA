@@ -44,22 +44,38 @@ const SendFilesButton = styled.button`
   padding: 5px;
   margin-left: 6px;
   font-size: 15px;
+  outline: none;
   ${(props) =>
     props.disabled
       ? css`
           color: #d81052;
           cursor: not-allowed;
-          opacity: 0.6;
         `
       : css`
           color: green;
           cursor: pointer;
-          transition: all 0.4s linear;
-          margin-left: 83%;
           &:hover {
             color: white;
             background: linear-gradient(to right, #093028, #237a57);
           }
+        `}
+  ${(props) =>
+    props.SendFilesButtonStartFlying
+      ? css`
+          transition: all 0.2s linear;
+          margin-left: 83%;
+        `
+      : css``}
+    ${(props) =>
+    props.getItBack
+      ? css`
+          transition: all 0s linear;
+          margin-left: 6px;
+          opacity: 0;
+        `
+      : css`
+          transition: all 0.3s linear;
+          opacity: 1;
         `};
 `;
 
@@ -70,6 +86,8 @@ class WritingMessageSec extends React.Component {
     loaded: 0,
     image: "",
     readyToSend: false,
+    SendFilesButtonStartFlying: false,
+    getItBack: false,
   };
 
   handleChange(event) {
@@ -100,7 +118,6 @@ class WritingMessageSec extends React.Component {
   };
 
   onDrop = (files) => {
-    console.log("object");
     let formData = new FormData();
 
     const config = {
@@ -122,18 +139,32 @@ class WritingMessageSec extends React.Component {
           this.setState({
             image: res.data.url,
             readyToSend: true,
-            openWindowToUpload: false,
           });
         } else {
           this.setState({ loaded: 0 });
-          toast.error("this type is not Allowed !!");
+          toast.error("this type of file is not Allowed!!");
         }
       });
   };
 
   sendTheFile = () => {
     this.props.message(this.state.image);
-    this.setState({ loaded: 0, readyToSend: false });
+    this.setState({
+      loaded: 0,
+      SendFilesButtonStartFlying: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        readyToSend: false,
+        getItBack: true,
+        SendFilesButtonStartFlying: false,
+      });
+    }, 900);
+
+    setTimeout(() => {
+      this.setState({ getItBack: false });
+    }, 1200);
   };
 
   render() {
@@ -185,7 +216,7 @@ class WritingMessageSec extends React.Component {
             )}
           </Dropzone>
         </div>
-        <div className="form-group">
+        <div style={{ position: "relative" }}>
           <Progress
             style={{
               ...iconsStyles,
@@ -210,7 +241,8 @@ class WritingMessageSec extends React.Component {
               position: "absolute",
               zIndex: "10",
               height: "39px",
-              marginLeft: "53%",
+              marginLeft: "80%",
+              marginBottom: "10px",
             }}
           >
             {" "}
@@ -218,6 +250,8 @@ class WritingMessageSec extends React.Component {
           <SendFilesButton
             onClick={this.sendTheFile}
             disabled={!this.state.readyToSend}
+            SendFilesButtonStartFlying={this.state.SendFilesButtonStartFlying}
+            getItBack={this.state.getItBack}
           >
             Send The File
           </SendFilesButton>

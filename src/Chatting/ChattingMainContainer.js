@@ -8,7 +8,6 @@ import OnlineUsers from "../Chatting/OnlineUsers";
 import RoomName from "../Chatting/RoomName";
 import { createHashHistory } from "history";
 import styled from "styled-components";
-import { css } from "styled-components";
 
 const io = openSocket("http://localhost:5000");
 const history = createHashHistory();
