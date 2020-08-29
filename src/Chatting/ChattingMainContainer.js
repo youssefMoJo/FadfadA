@@ -7,6 +7,8 @@ import openSocket from "socket.io-client";
 import OnlineUsers from "../Chatting/OnlineUsers";
 import RoomName from "../Chatting/RoomName";
 import { createHashHistory } from "history";
+import styled from "styled-components";
+import { css } from "styled-components";
 
 const io = openSocket("http://localhost:5000");
 const history = createHashHistory();
@@ -23,6 +25,22 @@ const chattingMainContainerStyles = {
   borderRadius: "30px 30px 0px 0px",
   float: "left",
 };
+
+const LeaveButton = styled.button`
+  border: 0px solid;
+  padding: 5px;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  height: 70px;
+  color: white;
+  background: linear-gradient(to right, #c31432, #240b36);
+  transition: all 0.1s ease-out;
+
+  &:hover {
+    font-size: 30px;
+  }
+`;
 
 class ChattingMainContainer extends React.Component {
   state = {
@@ -137,7 +155,8 @@ class ChattingMainContainer extends React.Component {
         <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
         ></WritingMessageSec>
-        <button onClick={() => this.leave()}>Leave</button>
+
+        <LeaveButton onClick={() => this.leave()}>Leave</LeaveButton>
       </div>
     );
   }

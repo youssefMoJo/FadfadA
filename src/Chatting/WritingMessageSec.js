@@ -1,5 +1,5 @@
 import React from "react";
-import { SmileOutlined, UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, SmileOutlined } from "@ant-design/icons";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 import Dropzone from "react-dropzone";
@@ -7,6 +7,8 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styled from "styled-components";
+import { css } from "styled-components";
 
 const inputStyles = {
   width: "85%",
@@ -32,9 +34,34 @@ const emojisBox = {
   marginBottom: "10px",
   marginLeft: "20px",
   position: "absolute",
-  top: "350px",
+  top: "270px",
   outline: "none",
 };
+
+const SendFilesButton = styled.button`
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 5px;
+  margin-left: 6px;
+  font-size: 15px;
+  ${(props) =>
+    props.disabled
+      ? css`
+          color: #d81052;
+          cursor: not-allowed;
+          opacity: 0.6;
+        `
+      : css`
+          color: green;
+          cursor: pointer;
+          transition: all 0.4s linear;
+          margin-left: 83%;
+          &:hover {
+            color: white;
+            background: linear-gradient(to right, #093028, #237a57);
+          }
+        `};
+`;
 
 class WritingMessageSec extends React.Component {
   state = {
@@ -62,12 +89,18 @@ class WritingMessageSec extends React.Component {
   }
   addEmoji = (e) => {
     let emoji = e.native;
-    this.setState({
-      message: this.state.message + emoji,
-    });
+    this.setState(
+      {
+        message: this.state.message + emoji,
+      },
+      () => {
+        document.getElementById("myText").focus();
+      }
+    );
   };
 
   onDrop = (files) => {
+    console.log("object");
     let formData = new FormData();
 
     const config = {
@@ -86,8 +119,11 @@ class WritingMessageSec extends React.Component {
       .then((res) => {
         if (res.data.success) {
           toast.success("upload success");
-          this.setState({ loaded: 0, image: res.data.url, readyToSend: true });
-          // this.props.message(res.data.url);
+          this.setState({
+            image: res.data.url,
+            readyToSend: true,
+            openWindowToUpload: false,
+          });
         } else {
           this.setState({ loaded: 0 });
           toast.error("this type is not Allowed !!");
@@ -97,7 +133,7 @@ class WritingMessageSec extends React.Component {
 
   sendTheFile = () => {
     this.props.message(this.state.image);
-    this.setState({ readyToSend: false });
+    this.setState({ loaded: 0, readyToSend: false });
   };
 
   render() {
@@ -111,9 +147,9 @@ class WritingMessageSec extends React.Component {
         ) : (
           ""
         )}
-
         <form>
           <textarea
+            id={"myText"}
             value={this.state.message}
             style={{ ...inputStyles }}
             placeholder="Enter Your Message"
@@ -121,42 +157,70 @@ class WritingMessageSec extends React.Component {
             onKeyPress={(e) => this.keypress(e)}
           />
         </form>
-
         <SmileOutlined
           onClick={() =>
             this.state.showEmojis
               ? this.setState({ showEmojis: false })
               : this.setState({ showEmojis: true })
           }
-          style={{ ...iconsStyles }}
+          style={{
+            ...iconsStyles,
+            color: this.state.showEmojis ? "#4c94f5" : "black",
+          }}
         />
-
         <div style={{ display: "inline-flex" }}>
           <Dropzone onDrop={this.onDrop}>
             {({ getRootProps, getInputProps }) => (
               <section>
                 <div style={{ outline: "none" }} {...getRootProps()}>
                   <input {...getInputProps()} />
-                  <UploadOutlined style={{ ...iconsStyles }} />
+                  <UploadOutlined
+                    style={{
+                      ...iconsStyles,
+                      cursor: "pointer",
+                    }}
+                  />
                 </div>
               </section>
             )}
           </Dropzone>
         </div>
-
         <div className="form-group">
           <Progress
-            style={{ ...iconsStyles }}
+            style={{
+              ...iconsStyles,
+              color: this.state.loaded === 100 ? "green" : "black",
+            }}
             max="100"
-            color="success"
+            color="red"
             value={this.state.loaded}
           >
             {Math.round(this.state.loaded, 2)}%
           </Progress>
-          <ToastContainer />
-          <button onClick={this.sendTheFile} disabled={!this.state.readyToSend}>
-            Send It
-          </button>
+          <ToastContainer
+            position="top-center"
+            pauseOnFocusLoss={false}
+            pauseOnHover={false}
+            autoClose={3000}
+          />
+          <div
+            style={{
+              width: "20%",
+              backgroundColor: "white",
+              position: "absolute",
+              zIndex: "10",
+              height: "39px",
+              marginLeft: "53%",
+            }}
+          >
+            {" "}
+          </div>
+          <SendFilesButton
+            onClick={this.sendTheFile}
+            disabled={!this.state.readyToSend}
+          >
+            Send The File
+          </SendFilesButton>
         </div>
       </div>
     );
