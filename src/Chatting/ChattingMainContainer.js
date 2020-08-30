@@ -8,6 +8,8 @@ import OnlineUsers from "../Chatting/OnlineUsers";
 import RoomName from "../Chatting/RoomName";
 import { createHashHistory } from "history";
 import styled from "styled-components";
+import { PoweroffOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from "react-toastify";
 
 const io = openSocket("http://localhost:5000");
 const history = createHashHistory();
@@ -33,6 +35,7 @@ const LeaveButton = styled.button`
   cursor: pointer;
   height: 70px;
   color: white;
+  outline: "none";
   background: linear-gradient(to right, #c31432, #240b36);
   transition: all 0.1s ease-out;
 
@@ -50,6 +53,8 @@ class ChattingMainContainer extends React.Component {
     users: {},
     showUserNames: false,
     isloggedin: false,
+    sendSomethingPrivate: false,
+    sendSomethingPrivateTo: null,
   };
   messagesEndRef = React.createRef();
 
@@ -94,18 +99,39 @@ class ChattingMainContainer extends React.Component {
   };
 
   presentMessage(mes) {
-    this.setState(
-      {
-        message: mes,
-        messages: [
-          ...this.state.messages,
-          { username: this.state.username, message: mes },
-        ],
-      },
-      () => {
-        io.emit("message", this.state.messages);
-      }
-    );
+    if (this.state.sendSomethingPrivate) {
+      console.log("inside the sendSomethingPrivate");
+      this.setState(
+        {
+          message: mes,
+          messages: [
+            ...this.state.messages,
+            {
+              username: this.state.username,
+              message: mes,
+              isPrivate: true,
+              to: this.state.sendSomethingPrivateTo,
+            },
+          ],
+        },
+        () => {
+          io.emit("message", this.state.messages);
+        }
+      );
+    } else {
+      this.setState(
+        {
+          message: mes,
+          messages: [
+            ...this.state.messages,
+            { username: this.state.username, message: mes },
+          ],
+        },
+        () => {
+          io.emit("message", this.state.messages);
+        }
+      );
+    }
   }
 
   leave() {
@@ -117,6 +143,66 @@ class ChattingMainContainer extends React.Component {
     history.push("/");
   }
 
+  privateMessage(name) {
+    this.setState(
+      { sendSomethingPrivate: true, sendSomethingPrivateTo: name },
+      () => {
+        toast.success("Now You Are In The Private Mode");
+      }
+    );
+  }
+  renderingMessages() {
+    let result = [];
+
+    for (let i = 0; i < this.state.messages.length; i++) {
+      if (this.state.messages[i].username === this.state.username) {
+        result.push(
+          <MyMessage key={i} message={this.state.messages[i].message} />
+        );
+      } else if (this.state.messages[i].isPrivate) {
+        if (this.state.messages[i].to !== this.state.username) {
+          i++;
+        } else {
+          result.push(
+            <FriendMessage
+              key={i}
+              name={this.state.messages[i].username}
+              message={this.state.messages[i].message}
+              onClick={(name) => {
+                this.privateMessage(name);
+              }}
+            />
+          );
+        }
+      } else {
+        result.push(
+          <FriendMessage
+            key={i}
+            name={this.state.messages[i].username}
+            message={this.state.messages[i].message}
+            onClick={(name) => {
+              this.privateMessage(name);
+            }}
+          />
+        );
+      }
+    }
+
+    return result;
+  }
+
+  backToPublickMode = () => {
+    this.setState(
+      {
+        sendSomethingPrivate: false,
+        sendSomethingPrivateTo: null,
+      },
+      () => {
+        toast.success("Now You Are Back To The Public Mode");
+      }
+    );
+  };
+
   render() {
     return (
       <div style={{ ...chattingMainContainerStyles }}>
@@ -126,36 +212,49 @@ class ChattingMainContainer extends React.Component {
           users={this.state.users}
           userName={this.state.username}
         />
-        <ConversationBox>
-          {this.state.messages.map((eachMessage, i) => {
-            if (eachMessage.username === this.state.username) {
-              return (
-                <MyMessage
-                  key={i}
-                  message={eachMessage.message}
-                  onClick={() => {
-                    console.log(eachMessage.message);
-                  }}
-                />
-              );
-            } else {
-              return (
-                <FriendMessage
-                  key={i}
-                  name={eachMessage.username}
-                  message={eachMessage.message}
-                />
-              );
-            }
-          })}
 
+        <ConversationBox>
+          {this.renderingMessages()}
           <div ref={this.messagesEndRef} />
         </ConversationBox>
+        <ToastContainer
+          position="top-center"
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          autoClose={3000}
+        />
+        <div
+          style={{
+            marginLeft: "100px",
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+          onClick={this.backToPublickMode}
+        >
+          {this.state.sendSomethingPrivate ? (
+            <div>
+              This Is A Private Message To{" "}
+              <span
+                style={{
+                  color: "rgb(47, 128, 237)",
+                  fontSize: "18px",
+                }}
+              >
+                {this.state.sendSomethingPrivateTo.charAt(0).toUpperCase() +
+                  this.state.sendSomethingPrivateTo.slice(1)}
+              </span>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
         <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
         ></WritingMessageSec>
 
-        <LeaveButton onClick={() => this.leave()}>Leave</LeaveButton>
+        <LeaveButton onClick={() => this.leave()}>
+          Leave <PoweroffOutlined />
+        </LeaveButton>
       </div>
     );
   }

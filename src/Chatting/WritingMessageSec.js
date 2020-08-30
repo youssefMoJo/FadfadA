@@ -228,6 +228,7 @@ class WritingMessageSec extends React.Component {
           >
             {Math.round(this.state.loaded, 2)}%
           </Progress>
+
           <ToastContainer
             position="top-center"
             pauseOnFocusLoss={false}

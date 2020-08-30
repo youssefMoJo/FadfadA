@@ -67,7 +67,9 @@ class FriendMessage extends React.Component {
               verticalAlign: "bottom",
               color: "#2F80ED",
               marginLeft: "20px",
+              cursor: "pointer",
             }}
+            onClick={() => this.props.onClick(this.props.name)}
           >
             {this.props.name}
           </h3>
