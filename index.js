@@ -56,7 +56,6 @@ io.on("connection", (client) => {
         name,
         OnlineDevices: 1,
       };
-      // client.broadcast.emit("enteringNotification", userName);
       callback(false, true);
     }
   });
@@ -82,10 +81,6 @@ io.on("connection", (client) => {
     messagesArray = [...messagesArr];
     client.broadcast.emit("theMessage", messagesArr);
   });
-
-  // client.on("leavingNotification", (userName) => {
-  //   io.emit("leavingNotification", userName);
-  // });
 
   client.on("disconnect", () => {
     if (onlineUsers === 0) {

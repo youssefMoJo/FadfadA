@@ -14,7 +14,7 @@ const iconsStyles = {
   fontSize: "30px",
   marginLeft: "5px",
   outline: "none",
-  paddingTop: "10px",
+  paddingTop: "5px",
   cursor: "pointer",
 };
 
@@ -74,6 +74,7 @@ class WritingMessageSec extends React.Component {
     this.setState({
       message: "",
       showEmojis: false,
+      hover: false,
     });
   };
 
@@ -163,7 +164,7 @@ class WritingMessageSec extends React.Component {
           {({ getRootProps, getInputProps }) => (
             <section>
               <div
-                style={{ outline: "none", paddingTop: "10px" }}
+                style={{ outline: "none", paddingTop: "5px" }}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
@@ -210,22 +211,21 @@ class WritingMessageSec extends React.Component {
             onKeyPress={(e) => this.keypress(e)}
           />
         </form>
-        {/* fontSize: "30px",
-          marginLeft: "10px", */}
-        <SendOutlined
-          style={{
-            ...iconsStyles,
-            backgroundColor: this.state.hover ? "gray" : "",
-            borderRadius: this.state.hover ? "120px" : "120px",
-            padding: this.state.hover ? "10px" : "10px",
-            fontSize: this.state.hover ? "30px" : "30px",
-          }}
-          onClick={this.sendMessage}
-          onMouseEnter={this.toggleHover}
-          onMouseLeave={this.toggleHover}
-          // onMouseDown={() => console.log("object")}
-        />
-
+        {this.state.message.length !== 0 ? (
+          <SendOutlined
+            style={{
+              ...iconsStyles,
+              backgroundColor: this.state.hover ? "rgb(47, 128, 237)" : "",
+              color: this.state.hover ? "white" : "",
+              borderRadius: this.state.hover ? "110px" : "120px",
+              padding: this.state.hover ? "10px" : "10px",
+              marginLeft: "5px",
+            }}
+            onClick={this.sendMessage}
+            onMouseEnter={this.toggleHover}
+            onMouseLeave={this.toggleHover}
+          />
+        ) : null}
         <ToastContainer
           position="top-center"
           pauseOnFocusLoss={false}
