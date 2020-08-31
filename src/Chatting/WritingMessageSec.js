@@ -1,5 +1,5 @@
 import React from "react";
-import { UploadOutlined, SmileOutlined } from "@ant-design/icons";
+import { UploadOutlined, SmileOutlined, SendOutlined } from "@ant-design/icons";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 import Dropzone from "react-dropzone";
@@ -9,19 +9,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { css } from "styled-components";
+import ModalImage from "react-modal-image";
 
-const inputStyles = {
-  width: "85%",
-  borderRadius: "10px",
-  float: "right",
-  resize: "none",
-  textAlign: "center",
-  outline: "none",
-  marginRight: "10px",
-  height: "50px",
-  fontSize: "20px",
-  overflow: "auto",
-};
+// const inputStyles = {
+//   width: "430px",
+//   borderRadius: "150px",
+//   resize: "none",
+//   outline: "none",
+//   fontSize: "15px",
+//   overflow: "auto",
+//   padding: "10px 0px 0px 25px",
+//   marginLeft: "10px",
+// };
+
 const iconsStyles = {
   display: "inline",
   fontSize: "30px",
@@ -29,55 +29,75 @@ const iconsStyles = {
   outline: "none",
   paddingTop: "10px",
 };
+
 const emojisBox = {
   borderRadius: "50px",
   marginBottom: "10px",
   marginLeft: "20px",
   position: "absolute",
-  top: "270px",
+  top: "315px",
   outline: "none",
 };
-
+const InputStyles = styled.textarea`
+  // width: 430px;
+  width: 400px;
+  border-radius: 150px;
+  resize: none;
+  outline: none;
+  font-size: 15px;
+  over-flow: auto;
+  padding: 10px 0px 0px 25px;
+  margin-left: 10px;
+`;
 const SendFilesButton = styled.button`
   border: 1px solid;
-  border-radius: 10px;
-  padding: 5px;
+  border-radius: 150px;
+  padding: 10px;
   margin-left: 6px;
-  font-size: 15px;
+  font-size: 10px;
   outline: none;
+  height: 48px;
+  width: 60px;
   ${(props) =>
-    props.disabled
+    props.SendFilesButtonName === "send"
       ? css`
-          color: #d81052;
-          cursor: not-allowed;
-        `
-      : css`
           color: green;
           cursor: pointer;
           &:hover {
             color: white;
             background: linear-gradient(to right, #093028, #237a57);
           }
-        `}
-  ${(props) =>
-    props.SendFilesButtonStartFlying
-      ? css`
-          transition: all 0.2s linear;
-          margin-left: 83%;
         `
-      : css``}
-    ${(props) =>
-    props.getItBack
+      : props.SendFilesButtonName === "preview"
       ? css`
-          transition: all 0s linear;
-          margin-left: 6px;
-          opacity: 0;
+          color: green;
+          cursor: pointer;
+          &:hover {
+            color: white;
+            background: linear-gradient(to right, #093028, #237a57);
+          }
         `
-      : css`
-          transition: all 0.3s linear;
-          opacity: 1;
-        `};
+      : css``};
 `;
+
+// ${(props) =>
+//   props.SendFilesButtonStartFlying
+//     ? css`
+//         transition: all 0.2s linear;
+//         margin-left: 83%;
+//       `
+//     : css``}
+//   ${(props) =>
+//   props.getItBack
+//     ? css`
+//         transition: all 0s linear;
+//         margin-left: 6px;
+//         opacity: 0;
+//       `
+//     : css`
+//         transition: all 0.3s linear;
+//         opacity: 1;
+//       `};
 
 class WritingMessageSec extends React.Component {
   state = {
@@ -169,7 +189,7 @@ class WritingMessageSec extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: "flex" }}>
         {this.state.showEmojis ? (
           <Picker
             style={{ ...emojisBox }}
@@ -178,16 +198,7 @@ class WritingMessageSec extends React.Component {
         ) : (
           ""
         )}
-        <form>
-          <textarea
-            id={"myText"}
-            value={this.state.message}
-            style={{ ...inputStyles }}
-            placeholder="Enter Your Message"
-            onChange={(e) => this.handleChange(e)}
-            onKeyPress={(e) => this.keypress(e)}
-          />
-        </form>
+
         <SmileOutlined
           onClick={() =>
             this.state.showEmojis
@@ -199,25 +210,67 @@ class WritingMessageSec extends React.Component {
             color: this.state.showEmojis ? "#4c94f5" : "black",
           }}
         />
-        <div style={{ display: "inline-flex" }}>
-          <Dropzone onDrop={this.onDrop}>
-            {({ getRootProps, getInputProps }) => (
-              <section>
-                <div style={{ outline: "none" }} {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <UploadOutlined
-                    style={{
-                      ...iconsStyles,
-                      cursor: "pointer",
-                    }}
-                  />
-                </div>
-              </section>
-            )}
-          </Dropzone>
-        </div>
-        <div style={{ position: "relative" }}>
-          <Progress
+
+        <Dropzone onDrop={this.onDrop}>
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div
+                style={{ outline: "none", paddingTop: "10px" }}
+                {...getRootProps()}
+              >
+                <input {...getInputProps()} />
+                <UploadOutlined
+                  style={{
+                    ...iconsStyles,
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
+            </section>
+          )}
+        </Dropzone>
+        {!this.state.readyToSend ? (
+          <div>
+            <SendFilesButton
+              onClick={this.sendTheFile}
+              SendFilesButtonName="send"
+              // disabled={!this.state.readyToSend}
+              // SendFilesButtonStartFlying={this.state.SendFilesButtonStartFlying}
+              // getItBack={this.state.getItBack}
+            >
+              Send
+            </SendFilesButton>
+
+            {/* <SendFilesButton SendFilesButtonName="preview"> */}
+            <div style={{ borderRadius: "50% " }}>
+              <ModalImage
+                className={{ borderRadius: "50% " }}
+                large={require(`.././uploads/6.png`)}
+                small={require(`.././uploads/6.png`)}
+                alt="Preview"
+              />
+            </div>
+            {/* </SendFilesButton> */}
+          </div>
+        ) : null}
+
+        <form>
+          <InputStyles
+            id={"myText"}
+            value={this.state.message}
+            placeholder="Enter Your Message"
+            onChange={(e) => this.handleChange(e)}
+            onKeyPress={(e) => this.keypress(e)}
+          />
+        </form>
+        <SendOutlined
+          style={{
+            ...iconsStyles,
+          }}
+        />
+
+        {/* <div> */}
+        {/* <Progress
             style={{
               ...iconsStyles,
               color: this.state.loaded === 100 ? "green" : "black",
@@ -227,36 +280,40 @@ class WritingMessageSec extends React.Component {
             value={this.state.loaded}
           >
             {Math.round(this.state.loaded, 2)}%
-          </Progress>
+          </Progress> */}
 
-          <ToastContainer
-            position="top-center"
-            pauseOnFocusLoss={false}
-            pauseOnHover={false}
-            autoClose={3000}
-          />
-          <div
+        {/* <div
+            style={{
+              ...iconsStyles,
+              color: this.state.loaded === 100 ? "green" : "black",
+              display: "inline",
+            }}
+          >
+            {Math.round(this.state.loaded, 2)}%
+          </div> */}
+        {/* this div is to make the sendFileButton diappear */}
+        {/* <div
             style={{
               width: "20%",
-              backgroundColor: "white",
-              position: "absolute",
+              backgroundColor: "green",
+              display: "inline-flex",
+              // position: "absolute",
               zIndex: "10",
               height: "39px",
-              marginLeft: "80%",
-              marginBottom: "10px",
+              // marginLeft: "80%",
+              // marginBottom: "10px",
+              float: "right",
             }}
           >
             {" "}
-          </div>
-          <SendFilesButton
-            onClick={this.sendTheFile}
-            disabled={!this.state.readyToSend}
-            SendFilesButtonStartFlying={this.state.SendFilesButtonStartFlying}
-            getItBack={this.state.getItBack}
-          >
-            Send The File
-          </SendFilesButton>
-        </div>
+          </div> */}
+        {/* </div> */}
+        <ToastContainer
+          position="top-center"
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          autoClose={3000}
+        />
       </div>
     );
   }

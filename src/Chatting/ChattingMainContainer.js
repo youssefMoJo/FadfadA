@@ -76,6 +76,14 @@ class ChattingMainContainer extends React.Component {
       });
     });
 
+    // io.on("enteringNotification", (newComerUser) => {
+    //   toast.info(newComerUser + " Entered");
+    // });
+
+    // io.on("leavingNotification", (newComerUser) => {
+    //   toast.info(newComerUser + " Left");
+    // });
+
     this.setState(
       {
         username: this.props.name,
@@ -100,7 +108,6 @@ class ChattingMainContainer extends React.Component {
 
   presentMessage(mes) {
     if (this.state.sendSomethingPrivate) {
-      console.log("inside the sendSomethingPrivate");
       this.setState(
         {
           message: mes,
@@ -136,6 +143,7 @@ class ChattingMainContainer extends React.Component {
 
   leave() {
     const leave = true;
+    // io.emit("leavingNotification", this.state.username);
     io.emit("getOnlineUsers", leave, this.state.username);
     localStorage.removeItem("userOnline");
     localStorage.removeItem("username");
