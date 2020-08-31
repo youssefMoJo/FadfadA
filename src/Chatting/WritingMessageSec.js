@@ -12,9 +12,10 @@ import ModalImage from "react-modal-image";
 const iconsStyles = {
   display: "inline",
   fontSize: "30px",
-  marginLeft: "10px",
+  marginLeft: "5px",
   outline: "none",
   paddingTop: "10px",
+  cursor: "pointer",
 };
 
 const emojisBox = {
@@ -59,6 +60,7 @@ class WritingMessageSec extends React.Component {
     showEmojis: false,
     image: "",
     readyToSend: false,
+    hover: false,
   };
 
   handleChange(event) {
@@ -66,7 +68,9 @@ class WritingMessageSec extends React.Component {
   }
 
   sendMessage = () => {
-    this.props.message(this.state.message);
+    if (this.state.message.length !== 0) {
+      this.props.message(this.state.message);
+    }
     this.setState({
       message: "",
       showEmojis: false,
@@ -128,6 +132,9 @@ class WritingMessageSec extends React.Component {
     });
   };
 
+  toggleHover = () => {
+    this.setState({ hover: !this.state.hover });
+  };
   render() {
     return (
       <div style={{ display: "flex" }}>
@@ -163,7 +170,6 @@ class WritingMessageSec extends React.Component {
                 <UploadOutlined
                   style={{
                     ...iconsStyles,
-                    cursor: "pointer",
                   }}
                 />
               </div>
@@ -188,10 +194,6 @@ class WritingMessageSec extends React.Component {
                   12,
                   this.state.image.length
                 )}`)}
-                // small={require(`.././uploads/${this.state.image.substring(
-                //   12,
-                //   this.state.image.length
-                // )}`)}
                 alt="Preview"
               />
             </div>
@@ -208,12 +210,20 @@ class WritingMessageSec extends React.Component {
             onKeyPress={(e) => this.keypress(e)}
           />
         </form>
-
+        {/* fontSize: "30px",
+          marginLeft: "10px", */}
         <SendOutlined
           style={{
             ...iconsStyles,
+            backgroundColor: this.state.hover ? "gray" : "",
+            borderRadius: this.state.hover ? "120px" : "120px",
+            padding: this.state.hover ? "10px" : "10px",
+            fontSize: this.state.hover ? "30px" : "30px",
           }}
           onClick={this.sendMessage}
+          onMouseEnter={this.toggleHover}
+          onMouseLeave={this.toggleHover}
+          // onMouseDown={() => console.log("object")}
         />
 
         <ToastContainer
