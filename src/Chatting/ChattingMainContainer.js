@@ -47,6 +47,12 @@ const ChattingMainContainerStyles = styled.div`
     width: 100%;
     border-radius: 0px;
   }
+  @media (max-width: 1000px) {
+    margin-left: 0%;
+    margin-top: 50px;
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 const LeaveButton = styled.button`

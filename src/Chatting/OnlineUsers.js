@@ -2,20 +2,38 @@ import React from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-const Rotate = styled.div`
+const OnlineUsersLine = styled.div`
   height: 42px;
   background: #2f80ed;
   transition: width 0.5s;
-  ${(props) =>
-    (props.isShowUserNamesModelOpen && "width: 100%;  background: green;") ||
-    (!props.isShowUserNamesModelOpen && "width: 100px;")}
+  ${(props) => props.isShowUserNamesModelOpen && " background: green;"}
 
   width: auto;
 `;
 
+const OnlineUsersBox = styled.div`
+  position: absolute;
+  margin-left: 12.5%;
+  background-color: #ffffff;
+  width: 25%;
+  box-shadow: 5px 5px 5px 5px grey;
+  border-radius: 50px;
+  text-align: center;
+  height: 250px;
+  overflow: auto;
+  @media (max-width: 600px) {
+    width: 50%;
+    margin-left: 25%;
+  }
+  @media (max-width: 1000px) {
+    width: 50%;
+    margin-left: 25%;
+  }
+`;
+
 class OnlineUsers extends React.Component {
   state = {
-    showUserNames: false,
+    showUserNames: true,
   };
   showUserNames() {
     if (this.state.showUserNames) {
@@ -28,7 +46,7 @@ class OnlineUsers extends React.Component {
     return (
       <div>
         {/* HOW MANY ONLINE USER */}
-        <Rotate isShowUserNamesModelOpen={this.state.showUserNames}>
+        <OnlineUsersLine isShowUserNamesModelOpen={this.state.showUserNames}>
           <h1
             style={{
               backgroundColor: "white ",
@@ -43,30 +61,18 @@ class OnlineUsers extends React.Component {
             {this.props.onlineUsers - 1} Online{" "}
             {this.state.showUserNames ? <UpOutlined /> : <DownOutlined />}
           </h1>
-        </Rotate>
+        </OnlineUsersLine>
 
         {/* A LIST OF ALL USER NAMES  */}
         {this.state.showUserNames ? (
-          <div
-            style={{
-              position: "absolute",
-              marginLeft: "240px",
-              backgroundColor: "#FFFFFF",
-              width: "200px",
-              boxShadow: "5px 5px 5px 5px grey",
-              borderRadius: "50px",
-              textAlign: " center",
-              height: "250px",
-              overflow: "auto",
-            }}
-          >
+          <OnlineUsersBox>
             {Object.values(this.props.users).map((user, i) => {
               if (user.name !== this.props.userName && user.online) {
                 return <h2 key={i}>{user.name}</h2>;
               }
               return null;
             })}
-          </div>
+          </OnlineUsersBox>
         ) : null}
       </div>
     );
