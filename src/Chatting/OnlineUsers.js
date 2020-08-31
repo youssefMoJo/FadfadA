@@ -2,6 +2,17 @@ import React from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
+const Rotate = styled.div`
+  height: 42px;
+  background: #2f80ed;
+  transition: width 0.5s;
+  ${(props) =>
+    (props.isShowUserNamesModelOpen && "width: 100%;  background: green;") ||
+    (!props.isShowUserNamesModelOpen && "width: 100px;")}
+
+  width: auto;
+`;
+
 class OnlineUsers extends React.Component {
   state = {
     showUserNames: false,
@@ -14,30 +25,14 @@ class OnlineUsers extends React.Component {
     }
   }
   render() {
-    const Rotate = styled.div`
-      width: 100px;
-      height: 42px;
-      background: #2f80ed;
-      transition: width 0.5s;
-      ${(props) =>
-        (props.isShowUserNamesModelOpen &&
-          "width: 100%;  background: green;") ||
-        (!props.isShowUserNamesModelOpen && "width: 100px;")}
-
-      &:active {
-        width: ${(props) =>
-          props.isShowUserNamesModelOpen ? "100px" : " 100%"};
-      }
-    `;
-
     return (
       <div>
         {/* HOW MANY ONLINE USER */}
         <Rotate isShowUserNamesModelOpen={this.state.showUserNames}>
           <h1
             style={{
-              backgroundColor: "white",
-              width: "700px",
+              backgroundColor: "white ",
+              width: "100%",
               color: "#2F80ED",
               margin: "0px",
               cursor: "pointer",
