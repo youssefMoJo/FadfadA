@@ -22,10 +22,32 @@ const chattingMainContainerStyles = {
   backgroundColor: "white",
   height: "750px",
   marginTop: "100px",
-  width: "700px",
+  marginLeft: "25%",
+  // width: "700px",
+  width: "50%",
   borderRadius: "30px 30px 0px 0px",
   float: "left",
 };
+
+const ChattingMainContainerStyles = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: auto;
+  grid-gap: 10px;
+  background-color: white;
+  height: 750px;
+  margin-top: 100px;
+  margin-left: 25%;
+  width: 50%;
+  border-radius: 30px 30px 0px 0px;
+  float: left;
+  @media (max-width: 600px) {
+    margin-left: 0%;
+    margin-top: 50px;
+    width: 100%;
+    border-radius: 0px;
+  }
+`;
 
 const LeaveButton = styled.button`
   border: 0px solid;
@@ -204,7 +226,7 @@ class ChattingMainContainer extends React.Component {
 
   render() {
     return (
-      <div style={{ ...chattingMainContainerStyles }}>
+      <ChattingMainContainerStyles>
         <RoomName roomName={"Public Room"} />
         <OnlineUsers
           onlineUsers={this.state.onlineUsers}
@@ -247,14 +269,14 @@ class ChattingMainContainer extends React.Component {
             ""
           )}
         </div>
-        <WritingMessageSec
+        {/* <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
-        ></WritingMessageSec>
+        ></WritingMessageSec> */}
 
         <LeaveButton onClick={() => this.leave()}>
           Leave <PoweroffOutlined />
         </LeaveButton>
-      </div>
+      </ChattingMainContainerStyles>
     );
   }
 }
