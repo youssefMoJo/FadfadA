@@ -33,7 +33,7 @@ const OnlineUsersBox = styled.div`
 
 class OnlineUsers extends React.Component {
   state = {
-    showUserNames: true,
+    showUserNames: false,
   };
   showUserNames() {
     if (this.state.showUserNames) {

@@ -275,9 +275,9 @@ class ChattingMainContainer extends React.Component {
             ""
           )}
         </div>
-        {/* <WritingMessageSec
+        <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
-        ></WritingMessageSec> */}
+        ></WritingMessageSec>
 
         <LeaveButton onClick={() => this.leave()}>
           Leave <PoweroffOutlined />

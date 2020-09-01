@@ -26,9 +26,9 @@ const emojisBox = {
   top: "315px",
   outline: "none",
 };
+
 const InputStyles = styled.textarea`
   border-radius: 150px;
-
   resize: none;
   outline: none;
   font-size: 15px;
@@ -136,9 +136,11 @@ class WritingMessageSec extends React.Component {
   toggleHover = () => {
     this.setState({ hover: !this.state.hover });
   };
+
   render() {
     return (
       <div style={{ display: "flex" }}>
+        {/* this is for the emojis box  */}
         {this.state.showEmojis ? (
           <Picker
             style={{ ...emojisBox }}
@@ -147,7 +149,7 @@ class WritingMessageSec extends React.Component {
         ) : (
           ""
         )}
-
+        {/* this is the button to show the emojis box */}
         <SmileOutlined
           onClick={() =>
             this.state.showEmojis
@@ -159,7 +161,7 @@ class WritingMessageSec extends React.Component {
             color: this.state.showEmojis ? "#4c94f5" : "black",
           }}
         />
-
+        {/* this is the icon for uploading  */}
         <Dropzone onDrop={this.onDrop}>
           {({ getRootProps, getInputProps }) => (
             <section>
@@ -177,7 +179,7 @@ class WritingMessageSec extends React.Component {
             </section>
           )}
         </Dropzone>
-
+        {/* this is the send icon to send the file you uploaded */}
         {this.state.readyToSend ? (
           <div>
             <SendFilesButton onClick={this.sendTheFile}>Send</SendFilesButton>
@@ -200,7 +202,7 @@ class WritingMessageSec extends React.Component {
             </div>
           </div>
         ) : null}
-
+        {/* this is the message input */}
         <form>
           <InputStyles
             style={{ width: this.state.readyToSend ? "400px" : "530px" }}
@@ -211,6 +213,7 @@ class WritingMessageSec extends React.Component {
             onKeyPress={(e) => this.keypress(e)}
           />
         </form>
+        {/* this is the send icon to send the message */}
         {this.state.message.length !== 0 ? (
           <SendOutlined
             style={{
@@ -226,6 +229,7 @@ class WritingMessageSec extends React.Component {
             onMouseLeave={this.toggleHover}
           />
         ) : null}
+        {/* this is notification or alert component */}
         <ToastContainer
           position="top-center"
           pauseOnFocusLoss={false}
