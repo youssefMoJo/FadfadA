@@ -7,7 +7,6 @@ const OnlineUsersLine = styled.div`
   background: #2f80ed;
   transition: width 0.5s;
   ${(props) => props.isShowUserNamesModelOpen && " background: green;"}
-
   width: auto;
 `;
 

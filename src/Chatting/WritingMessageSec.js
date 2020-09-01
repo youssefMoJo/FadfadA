@@ -18,15 +18,25 @@ const iconsStyles = {
   cursor: "pointer",
 };
 
-const emojisBox = {
-  borderRadius: "50px",
-  marginBottom: "10px",
-  marginLeft: "20px",
-  position: "absolute",
-  top: "315px",
-  outline: "none",
-};
-
+// const emojisBox = {
+//   borderRadius: "50px",
+//   marginBottom: "10px",
+//   marginLeft: "20px",
+//   position: "absolute",
+//   top: "315px",
+//   outline: "none",
+// };
+const EmojisBox = styled.div`
+  border-radius: 50px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  position: absolute;
+  top: 310px;
+  outline: none;
+  @media (max-width: 1000px) {
+    top: ${(props) => (props.showEmojis ? "260px" : "260px")};
+  }
+`;
 const InputStyles = styled.textarea`
   border-radius: 150px;
   resize: none;
@@ -178,10 +188,12 @@ class WritingMessageSec extends React.Component {
         {/* -------------------------------------------------------------------------------- */}
         {/* this is for the emojis box  */}
         {this.state.showEmojis ? (
-          <Picker
-            style={{ ...emojisBox }}
-            onSelect={(emoji) => this.addEmoji(emoji)}
-          />
+          <EmojisBox>
+            <Picker
+              showEmojis={this.state.showEmojis}
+              onSelect={(emoji) => this.addEmoji(emoji)}
+            />
+          </EmojisBox>
         ) : (
           ""
         )}
@@ -244,7 +256,6 @@ class WritingMessageSec extends React.Component {
         ) : null}
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the message input */}
-        {/* <form> */}
         <InputStyles
           widthAdjusting={this.state.readyToSend}
           id={"myText"}
@@ -253,10 +264,9 @@ class WritingMessageSec extends React.Component {
           onChange={(e) => this.handleChange(e)}
           onKeyPress={(e) => this.keypress(e)}
         />
-        {/* </form> */}
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the send icon to send the message */}
-        {!this.state.message.length !== 0 ? (
+        {this.state.message.length !== 0 ? (
           <div
             style={{
               ...iconsStyles,
