@@ -14,7 +14,7 @@ const iconsStyles = {
   fontSize: "30px",
   marginLeft: "5px",
   outline: "none",
-  paddingTop: "5px",
+  paddingTop: "10px",
   cursor: "pointer",
 };
 
@@ -34,7 +34,34 @@ const InputStyles = styled.textarea`
   font-size: 15px;
   over-flow: auto;
   padding: 10px 0px 0px 25px;
-  margin-left: 10px;
+  margin-left: 20px;
+
+  width: ${(props) => (props.widthAdjusting ? "60%" : "80%")};
+
+  @media (max-width: 1554px) {
+    width: ${(props) => (props.widthAdjusting ? "50%" : "80%")};
+  }
+  @media (max-width: 1255px) {
+    width: ${(props) => (props.widthAdjusting ? "40%" : "80%")};
+  }
+  @media (max-width: 1050px) {
+    width: ${(props) => (props.widthAdjusting ? "30%" : "80%")};
+  }
+  @media (max-width: 1000px) {
+    width: ${(props) => (props.widthAdjusting ? "60%" : "80%")};
+  }
+  @media (max-width: 790px) {
+    width: ${(props) => (props.widthAdjusting ? "50%" : "80%")};
+  }
+  @media (max-width: 730px) {
+    width: ${(props) => (props.widthAdjusting ? "40%" : "80%")};
+  }
+  @media (max-width: 530px) {
+    width: ${(props) => (props.widthAdjusting ? "30%" : "80%")};
+  }
+  @media (max-width: 460px) {
+    width: ${(props) => (props.widthAdjusting ? "20%" : "80%")};
+  }
 `;
 
 const SendFilesButton = styled.button`
@@ -139,7 +166,16 @@ class WritingMessageSec extends React.Component {
 
   render() {
     return (
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          backgroundColor: "white",
+          padding: "10px 0px 10px 0px",
+          height: "50px",
+        }}
+      >
+        {/* -------------------------------------------------------------------------------- */}
         {/* this is for the emojis box  */}
         {this.state.showEmojis ? (
           <Picker
@@ -149,7 +185,8 @@ class WritingMessageSec extends React.Component {
         ) : (
           ""
         )}
-        {/* this is the button to show the emojis box */}
+        {/* -------------------------------------------------------------------------------- */}
+        {/* this is the icon to show the emojis box */}
         <SmileOutlined
           onClick={() =>
             this.state.showEmojis
@@ -161,12 +198,13 @@ class WritingMessageSec extends React.Component {
             color: this.state.showEmojis ? "#4c94f5" : "black",
           }}
         />
+        {/* -------------------------------------------------------------------------------- */}
         {/* this is the icon for uploading  */}
         <Dropzone onDrop={this.onDrop}>
           {({ getRootProps, getInputProps }) => (
             <section>
               <div
-                style={{ outline: "none", paddingTop: "5px" }}
+                style={{ outline: "none", paddingTop: "10px" }}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
@@ -179,6 +217,7 @@ class WritingMessageSec extends React.Component {
             </section>
           )}
         </Dropzone>
+        {/* -------------------------------------------------------------------------------- */}
         {/* this is the send icon to send the file you uploaded */}
         {this.state.readyToSend ? (
           <div>
@@ -193,42 +232,49 @@ class WritingMessageSec extends React.Component {
               }}
             >
               <ModalImage
-                large={require(`.././uploads/${this.state.image.substring(
-                  12,
-                  this.state.image.length
-                )}`)}
+                // large={require(`.././uploads/${this.state.image.substring(
+                //   12,
+                //   this.state.image.length
+                // )}`)}
+                large={require(`./bg.png`)}
                 alt="Preview"
               />
             </div>
           </div>
         ) : null}
+        {/* -------------------------------------------------------------------------------- */}
         {/* this is the message input */}
-        <form>
-          <InputStyles
-            style={{ width: this.state.readyToSend ? "400px" : "530px" }}
-            id={"myText"}
-            value={this.state.message}
-            placeholder="Enter Your Message"
-            onChange={(e) => this.handleChange(e)}
-            onKeyPress={(e) => this.keypress(e)}
-          />
-        </form>
+        {/* <form> */}
+        <InputStyles
+          widthAdjusting={this.state.readyToSend}
+          id={"myText"}
+          value={this.state.message}
+          placeholder="Enter Your Message"
+          onChange={(e) => this.handleChange(e)}
+          onKeyPress={(e) => this.keypress(e)}
+        />
+        {/* </form> */}
+        {/* -------------------------------------------------------------------------------- */}
         {/* this is the send icon to send the message */}
-        {this.state.message.length !== 0 ? (
-          <SendOutlined
+        {!this.state.message.length !== 0 ? (
+          <div
             style={{
               ...iconsStyles,
               backgroundColor: this.state.hover ? "rgb(47, 128, 237)" : "",
               color: this.state.hover ? "white" : "",
-              borderRadius: this.state.hover ? "110px" : "120px",
-              padding: this.state.hover ? "10px" : "10px",
+              borderRadius: this.state.hover ? "150px" : "120px",
+              padding: this.state.hover ? "10x" : "10px",
               marginLeft: "5px",
             }}
-            onClick={this.sendMessage}
-            onMouseEnter={this.toggleHover}
-            onMouseLeave={this.toggleHover}
-          />
+          >
+            <SendOutlined
+              onClick={this.sendMessage}
+              onMouseEnter={this.toggleHover}
+              onMouseLeave={this.toggleHover}
+            />
+          </div>
         ) : null}
+        {/* -------------------------------------------------------------------------------- */}
         {/* this is notification or alert component */}
         <ToastContainer
           position="top-center"

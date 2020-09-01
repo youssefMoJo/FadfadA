@@ -23,7 +23,6 @@ const chattingMainContainerStyles = {
   height: "750px",
   marginTop: "100px",
   marginLeft: "25%",
-  // width: "700px",
   width: "50%",
   borderRadius: "30px 30px 0px 0px",
   float: "left",
