@@ -18,18 +18,11 @@ const iconsStyles = {
   cursor: "pointer",
 };
 
-// const emojisBox = {
-//   borderRadius: "50px",
-//   marginBottom: "10px",
-//   marginLeft: "20px",
-//   position: "absolute",
-//   top: "315px",
-//   outline: "none",
-// };
 const EmojisBox = styled.div`
   border-radius: 50px;
+  width: 30px;
   margin-bottom: 10px;
-  margin-left: 20px;
+  margin-left: 10px;
   position: absolute;
   top: 310px;
   outline: none;
@@ -190,6 +183,7 @@ class WritingMessageSec extends React.Component {
         {this.state.showEmojis ? (
           <EmojisBox>
             <Picker
+              style={{ borderRadius: "50px" }}
               showEmojis={this.state.showEmojis}
               onSelect={(emoji) => this.addEmoji(emoji)}
             />

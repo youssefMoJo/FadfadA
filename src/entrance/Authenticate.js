@@ -1,15 +1,45 @@
 import React from "react";
+import styled from "styled-components";
 
 const Authenticate = (props) => {
-  const userNameModel = {
-    backgroundColor: "white",
-    position: "absolute",
-    top: "40%",
-    left: "50%",
-    height: "100px",
-    width: "200px",
-  };
+  const UserNameModel = styled.div`
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 25%;
+    margin-left: 37%;
+    margin-top: 20%;
+    @media (max-width: 940px) {
+      width: 50%;
+      margin-left: 25%;
+      margin-top: 25%;
+    }
+    @media (max-width: 600px) {
+      width: auto;
+      margin-top: 50%;
+      margin-left: 0%;
+    }
+  `;
 
+  const inputStyling = {
+    width: "100%",
+    padding: "12px 20px",
+    margin: "8px 0",
+    display: "inline-block",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    boxSizing: "border-box",
+  };
+  const submittingButtonStyling = {
+    width: "100%",
+    backgroundColor: " #4CAF50",
+    color: "white",
+    padding: "14px 20px",
+    margin: "8px 0",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  };
   let name = "";
   let password = "";
 
@@ -27,22 +57,31 @@ const Authenticate = (props) => {
   };
 
   return (
-    <div style={{ ...userNameModel }}>
+    <UserNameModel>
       <form onSubmit={(e) => sendName(e)}>
         <label>User Name : </label>
-        <input placeholder="Your Name" onChange={(e) => username(e)} required />
+        <input
+          style={{ ...inputStyling }}
+          placeholder="Your Name"
+          onChange={(e) => username(e)}
+          required
+        />
 
         <label>Password : </label>
         <input
+          style={{ ...inputStyling }}
           placeholder="Password"
           onChange={(e) => Password(e)}
           type="password"
           required
         />
 
-        <input type="submit"></input>
+        <button style={{ ...submittingButtonStyling }} type="submit">
+          {" "}
+          Join
+        </button>
       </form>
-    </div>
+    </UserNameModel>
   );
 };
 
