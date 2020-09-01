@@ -24,10 +24,10 @@ const EmojisBox = styled.div`
   margin-bottom: 10px;
   margin-left: 10px;
   position: absolute;
-  top: 310px;
+  top: 300px;
   outline: none;
   @media (max-width: 1000px) {
-    top: ${(props) => (props.showEmojis ? "260px" : "260px")};
+    top: ${(props) => (props.showEmojis ? "240px" : "240px")};
   }
 `;
 const InputStyles = styled.textarea`
