@@ -22,6 +22,7 @@ const Authenticate = (props) => {
       margin-left: 0%;
     }
   `;
+
   const inputStyling = {
     width: "100%",
     padding: "12px 20px",
@@ -62,10 +63,10 @@ const Authenticate = (props) => {
       style={{
         width: "100%",
         height: "100%",
-        position: "absolute",
+        // position: "absolute",
       }}
     >
-      <Background total={50} />
+      <Background total={35} />
       <UserNameModel>
         <form onSubmit={(e) => sendName(e)}>
           <label>User Name : </label>

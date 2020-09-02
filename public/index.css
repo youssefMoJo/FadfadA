@@ -4,4 +4,5 @@
   background-position: center;
   margin: 0px;
   min-width: 414px;
+  overflow: hidden;
 }

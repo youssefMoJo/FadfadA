@@ -1,12 +1,11 @@
-import React, { useRef, useLayoutEffect } from "react";
-import { TweenMax } from "gsap/all";
+import React, { useRef, useLayoutEffect, useEffect } from "react";
+import { TweenMax, TweenLite } from "gsap/all";
 
 function R(max) {
   return Math.random() * max;
 }
 
 function Background(props) {
-  //   const { total = 40 } = props;
   const total = props.total;
   const ref = useRef();
 
@@ -16,58 +15,62 @@ function Background(props) {
     const h = window.innerHeight;
     const dots = [];
 
-    function addAnimation(elm) {
-      return TweenMax.to(elm, R(20) + 10, {
-        bezier: {
-          values: [
-            {
-              x: R(w),
-              y: R(h),
-            },
-            {
-              x: R(w),
-              y: R(h),
-            },
-          ],
-        },
+    // -----------------------------------------------------
+    function addAnimation(divElm) {
+      return TweenLite.to(divElm, R(20) + 10, {
+        left: R(w),
+        right: R(w),
+        top: R(h),
+        bottom: R(h),
         opacity: R(1),
-        scale: R(1) + 0.5,
+        scale: R(1) + 1,
         delay: R(2),
+        backgroundColor: "yellow",
+        boxShadow: "0px 0px 10px 2px yellow",
         onComplete: addAnimation,
-        onCompleteParams: [elm],
+        onCompleteParams: [divElm],
       });
     }
+    // -----------------------------------------------------
 
     for (let i = 0; i < total; i++) {
       const div = document.createElement("div");
-      TweenMax.set(div, {
-        width: "4px",
-        height: "4px",
-        backgroundColor: "#ff00cc",
-        position: "absolute",
-        boxShadow: "0px 0px 10px 2px #ff00cc",
-        borderRadius: "20px",
-        zIndex: "2",
-        x: R(w),
-        y: R(h),
-        opacity: 0,
+
+      TweenLite.set(div, {
+        css: {
+          width: "4px",
+          height: "4px",
+          backgroundColor: "rgb(47, 128, 237)",
+          position: "absolute",
+          boxShadow: "0px 0px 10px 2px rgb(47, 128, 237)",
+          borderRadius: "20px",
+          left: R(w),
+          right: R(w),
+          top: R(h),
+          bottom: R(h),
+
+          opacity: 0.5,
+        },
       });
+
       container.appendChild(div);
       const dot = addAnimation(div);
       dot.play();
       dots.push(dot);
     }
+    // -----------------------------------------------------
 
     return () => {
-      // Clear animations and whatever here
       dots.forEach((dot) => dot.kill());
       container.innerHTML = "";
     };
+
+    // -----------------------------------------------------
   }, [total]);
+
   return (
     <div
       style={{ width: "100%", height: "100%", position: "absolute" }}
-      className="fireflies"
       ref={ref}
     />
   );
