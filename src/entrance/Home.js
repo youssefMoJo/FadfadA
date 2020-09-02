@@ -8,6 +8,7 @@ const io = openSocket("http://localhost:5000");
 class Home extends React.Component {
   state = {
     isloggedin: false,
+    logginginError: false,
   };
 
   render() {
@@ -30,9 +31,12 @@ class Home extends React.Component {
                       this.setState({
                         isloggedin: true,
                       });
+                    } else {
+                      this.setState({ logginginError: true });
                     }
                   })
                 }
+                logginginError={this.state.logginginError}
               />
             </div>
           )}

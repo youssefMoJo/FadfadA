@@ -1,5 +1,5 @@
-import React, { useRef, useLayoutEffect, useEffect } from "react";
-import { TweenMax, TweenLite } from "gsap/all";
+import React, { useRef, useLayoutEffect } from "react";
+import { TweenLite } from "gsap/all";
 
 function R(max) {
   return Math.random() * max;
@@ -17,7 +17,7 @@ function Background(props) {
 
     // -----------------------------------------------------
     function addAnimation(divElm) {
-      return TweenLite.to(divElm, R(20) + 10, {
+      return TweenLite.to(divElm, R(20) + 5, {
         left: R(w),
         right: R(w),
         top: R(h),
@@ -25,8 +25,8 @@ function Background(props) {
         opacity: R(1),
         scale: R(1) + 1,
         delay: R(2),
-        backgroundColor: "yellow",
-        boxShadow: "0px 0px 10px 2px yellow",
+        backgroundColor: "rgb(47, 128, 237)",
+        boxShadow: "0px 0px 10px 2px rgb(47, 128, 237)",
         onComplete: addAnimation,
         onCompleteParams: [divElm],
       });
@@ -40,16 +40,16 @@ function Background(props) {
         css: {
           width: "4px",
           height: "4px",
-          backgroundColor: "rgb(47, 128, 237)",
+          backgroundColor: "#ff00cc",
           position: "absolute",
-          boxShadow: "0px 0px 10px 2px rgb(47, 128, 237)",
+          boxShadow: "0px 0px 10px 2px #ff00cc",
           borderRadius: "20px",
           left: R(w),
           right: R(w),
           top: R(h),
           bottom: R(h),
 
-          opacity: 0.5,
+          opacity: 1,
         },
       });
 

@@ -85,7 +85,19 @@ const Authenticate = (props) => {
             type="password"
             required
           />
-
+          {!props.logginginError ? (
+            <div
+              style={{
+                width: "100%",
+                color: "red",
+              }}
+            >
+              <div>This User Name Is taken In The Present Chatting Room. </div>
+              <div>
+                If you are that person, make sure that the password is correct.{" "}
+              </div>
+            </div>
+          ) : null}
           <button style={{ ...submittingButtonStyling }} type="submit">
             {" "}
             Join
