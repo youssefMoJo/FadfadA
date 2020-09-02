@@ -6,7 +6,8 @@ function R(max) {
 }
 
 function Background(props) {
-  const { total = 40 } = props;
+  //   const { total = 40 } = props;
+  const total = props.total;
   const ref = useRef();
 
   useLayoutEffect(() => {
@@ -16,7 +17,6 @@ function Background(props) {
     const dots = [];
 
     function addAnimation(elm) {
-      console.log("object");
       return TweenMax.to(elm, R(20) + 10, {
         bezier: {
           values: [
@@ -47,10 +47,10 @@ function Background(props) {
         position: "absolute",
         boxShadow: "0px 0px 10px 2px #ff00cc",
         borderRadius: "20px",
-        zIndex: "0",
+        zIndex: "2",
         x: R(w),
         y: R(h),
-        opacity: 5,
+        opacity: 0,
       });
       container.appendChild(div);
       const dot = addAnimation(div);

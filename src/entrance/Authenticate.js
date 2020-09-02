@@ -65,7 +65,7 @@ const Authenticate = (props) => {
         position: "absolute",
       }}
     >
-      <Background total={25} />
+      <Background total={50} />
       <UserNameModel>
         <form onSubmit={(e) => sendName(e)}>
           <label>User Name : </label>
