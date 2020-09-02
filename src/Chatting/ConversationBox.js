@@ -14,7 +14,7 @@ const conversationBoxStyles = {
 class ConversationBox extends React.Component {
   render() {
     return (
-      <div style={{ ...conversationBoxStyles }}>{this.props.children}</div>
+      <div style={{ ...conversationBoxStyles }}> {this.props.children}</div>
     );
   }
 }

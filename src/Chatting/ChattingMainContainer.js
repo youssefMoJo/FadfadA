@@ -14,20 +14,6 @@ import { ToastContainer, toast } from "react-toastify";
 const io = openSocket("http://localhost:5000");
 const history = createHashHistory();
 
-const chattingMainContainerStyles = {
-  display: "flex",
-  flexDirection: "column",
-  gridTemplateColumns: "auto",
-  gridGap: "10px",
-  backgroundColor: "white",
-  height: "750px",
-  marginTop: "100px",
-  marginLeft: "25%",
-  width: "50%",
-  borderRadius: "30px 30px 0px 0px",
-  float: "left",
-};
-
 const ChattingMainContainerStyles = styled.div`
   display: flex;
   flex-direction: column;
