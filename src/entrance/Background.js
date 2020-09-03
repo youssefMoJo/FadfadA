@@ -17,7 +17,7 @@ function Background(props) {
 
     // -----------------------------------------------------
     function addAnimation(divElm) {
-      return TweenLite.to(divElm, R(20) + 5, {
+      return TweenLite.to(divElm, R(20) + 20, {
         left: R(w),
         right: R(w),
         top: R(h),
@@ -26,7 +26,7 @@ function Background(props) {
         scale: R(1) + 1,
         delay: R(2),
         backgroundColor: "rgb(47, 128, 237)",
-        boxShadow: "0px 0px 10px 2px rgb(47, 128, 237)",
+        boxShadow: "0px 0px 10px 3px rgb(47, 128, 237)",
         onComplete: addAnimation,
         onCompleteParams: [divElm],
       });
@@ -42,13 +42,12 @@ function Background(props) {
           height: "4px",
           backgroundColor: "#ff00cc",
           position: "absolute",
-          boxShadow: "0px 0px 10px 3px #ff00cc",
+          boxShadow: "0px 0px 10px 4px #ff00cc",
           borderRadius: "20px",
           left: R(w),
           right: R(w),
           top: R(h),
           bottom: R(h),
-
           opacity: 1,
         },
       });
