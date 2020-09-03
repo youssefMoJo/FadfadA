@@ -154,6 +154,7 @@ class ChattingMainContainer extends React.Component {
     localStorage.removeItem("username");
     this.setState({ isloggedin: false });
     history.push("/");
+    window.location.reload(true);
   }
 
   privateMessage(name) {
