@@ -44,15 +44,46 @@ class MyMessage extends React.Component {
               opts={opts}
               onReady={this._onReady}
             />
+            {this.props.private ? (
+              <span
+                style={{
+                  display: "flex",
+                  color: "Green",
+                  marginTop: "15px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                Private To {this.props.privateTo}
+              </span>
+            ) : null}
           </div>
         ) : this.props.message.includes("https") ? (
           <a
-            style={{ ...myMessageStyles }}
+            style={{
+              ...myMessageStyles,
+              backgroundColor: this.props.private ? "white" : "#2F80ED",
+              color: this.props.private ? "black" : "white",
+              border: this.props.private ? "2px solid green " : null,
+            }}
             href={this.props.message}
             target="_blank"
             rel="noopener noreferrer"
           >
             {this.props.message}
+            {this.props.private ? (
+              <span
+                style={{
+                  display: "flex",
+                  color: "Green",
+                  marginTop: "15px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                Private To {this.props.privateTo}
+              </span>
+            ) : null}
           </a>
         ) : this.props.message.substring(4, 11) === "uploads" ? (
           videoFormats.includes(
@@ -61,20 +92,36 @@ class MyMessage extends React.Component {
               this.props.message.length
             )
           ) ? (
-            <video
-              style={{
-                ...myMessageStyles,
-                maxWidth: "200px",
-                backgroundColor: "white",
-              }}
-              src={require(`.././uploads/${this.props.message.substring(
-                12,
-                this.props.message.length
-              )}`)}
-              alt="Video"
-              type="video/mp4"
-              controls
-            />
+            <div>
+              <video
+                style={{
+                  ...myMessageStyles,
+                  maxWidth: "200px",
+                  backgroundColor: "white",
+                }}
+                src={require(`.././uploads/${this.props.message.substring(
+                  12,
+                  this.props.message.length
+                )}`)}
+                alt="Video"
+                type="video/mp4"
+                controls
+              />
+              {this.props.private ? (
+                <span
+                  style={{
+                    display: "flex",
+                    float: "right",
+                    color: "Green",
+                    marginTop: "15px",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                >
+                  Private To {this.props.privateTo}
+                </span>
+              ) : null}
+            </div>
           ) : (
             <div
               style={{
@@ -94,6 +141,19 @@ class MyMessage extends React.Component {
                 )}`)}
                 alt="Picture"
               />
+              {this.props.private ? (
+                <span
+                  style={{
+                    display: "flex",
+                    color: "Green",
+                    marginTop: "15px",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                >
+                  Private To {this.props.privateTo}
+                </span>
+              ) : null}
             </div>
           )
         ) : (

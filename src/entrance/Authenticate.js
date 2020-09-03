@@ -127,7 +127,7 @@ const Authenticate = (props) => {
         height: "100%",
       }}
     >
-      <Background total={1} />
+      <Background total={50} />
       <UserNameModel>
         <form onSubmit={(e) => sendName(e)}>
           <label>User Name : </label>
