@@ -1,49 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Background from "./Background";
 
-const Authenticate = (props) => {
-  const UserNameModel = styled.div`
-    border-radius: 15px;
-    background-color: #f2f2f2;
-    padding: 20px;
-    width: 25%;
-    margin-left: 37%;
-    margin-top: 20%;
-    position: absolute;
-    @media (max-width: 940px) {
-      width: 50%;
-      margin-left: 25%;
-      margin-top: 25%;
-    }
-    @media (max-width: 600px) {
-      width: auto;
-      margin-top: 50%;
-      margin-left: 0%;
-    }
-  `;
+const UserNameModel = styled.div`
+  border-radius: 15px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 25%;
+  margin-left: 37%;
+  margin-top: 20%;
+  position: absolute;
 
-  const inputStyling = {
-    width: "100%",
-    padding: "12px 20px",
-    margin: "8px 0",
-    display: "inline-block",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    boxSizing: "border-box",
-  };
-  const submittingButtonStyling = {
-    width: "100%",
-    backgroundColor: " #4CAF50",
-    color: "white",
-    padding: "14px 20px",
-    margin: "8px 0",
-    border: "none",
-    cursor: "pointer",
-    borderRadius: " 15px",
-  };
+  @media (max-width: 940px) {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 25%;
+  }
+  @media (max-width: 600px) {
+    width: auto;
+    margin-top: 50%;
+    margin-left: 0%;
+  }
+`;
+
+const inputStyling = {
+  width: "100%",
+  padding: "12px 20px",
+  margin: "8px 0",
+  display: "inline-block",
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+  boxSizing: "border-box",
+};
+const submittingButtonStyling = {
+  width: "100%",
+  backgroundColor: " #4CAF50",
+  color: "white",
+  padding: "14px 20px",
+  margin: "8px 0",
+  border: "none",
+  cursor: "pointer",
+  borderRadius: " 15px",
+  outline: "none",
+};
+const FeaturesModel = styled.div`
+  border-radius: 15px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 25%;
+  margin-left: 37%;
+  height: 300px;
+  background-color: white;
+  position: absolute;
+  overflow: auto;
+  transition: all 0.3s ease;
+  margin-top: ${(props) => (props.showFeaturesModel ? "20%" : "17%")};
+  opacity: ${(props) => (props.showFeaturesModel ? "1" : "0")};
+  z-index: ${(props) => (props.showFeaturesModel ? "1" : "-1")};
+
+  @media (max-width: 940px) {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 25%;
+  }
+  @media (max-width: 600px) {
+    width: auto;
+    margin-top: 50%;
+    margin-left: 0%;
+  }
+`;
+const EachFeature = styled.h3`
+  border-radius: 150px;
+  padding: 15px;
+  padding-left: 30px;
+  background: linear-gradient(to right, #0f0c29, #302b63, #2c5364);
+  color: white;
+  line-height: 20pt;
+  font-weight: normal;
+`;
+const BackButton = styled.button`
+  border: 1px solid;
+  border-radius: 150px;
+  padding: 10px;
+  margin-left: 6px;
+  font-size: 10px;
+  outline: none;
+  height: 48px;
+  width: 100%;
+  color: green;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: linear-gradient(to right, #093028, #237a57);
+  }
+`;
+const Authenticate = (props) => {
   let name = "";
   let password = "";
+  const [showingFeaturesModel, setShowingFeaturesModel] = useState(false);
+
+  const features = [
+    "This application is about a public room where you can enter it at any time with any name that is not been used in the present room if there is one.",
+    "The user can leave the chatting room and rejoin again with the same username and password and restore all the messages, as long as the room you left is the same room you want to join. ",
+    "No conversation will be saved after everyone leaves the room.",
+    "The user can join the room from multiple devices.",
+    "Newcomers can see all the messages since the conversation started.",
+  ];
 
   const username = (e) => {
     name = e.target.value;
@@ -63,12 +125,9 @@ const Authenticate = (props) => {
       style={{
         width: "100%",
         height: "100%",
-
-        // position: "absolute",
       }}
     >
-      <Background total={45} />
-      {/* <div style={{ position: "absolute" }}>this is for testing</div> */}
+      <Background total={50} />
       <UserNameModel>
         <form onSubmit={(e) => sendName(e)}>
           <label>User Name : </label>
@@ -110,6 +169,18 @@ const Authenticate = (props) => {
             Join
           </button>
         </form>
+        <button
+          style={{
+            ...submittingButtonStyling,
+            backgroundColor: "rgb(47, 128, 237)",
+          }}
+          type="submit"
+          onClick={() => setShowingFeaturesModel(true)}
+        >
+          {" "}
+          Features
+        </button>
+
         {props.onlineUsers === 0 ? (
           <div>The Chatting Room Is Empty</div>
         ) : props.onlineUsers === 1 ? (
@@ -118,6 +189,15 @@ const Authenticate = (props) => {
           <div>{props.onlineUsers} People are Chatting Now</div>
         )}
       </UserNameModel>
+      <FeaturesModel showFeaturesModel={showingFeaturesModel}>
+        {features.map((eachFeature) => {
+          return <EachFeature>{eachFeature}</EachFeature>;
+        })}
+
+        <BackButton onClick={() => setShowingFeaturesModel(false)}>
+          go back
+        </BackButton>
+      </FeaturesModel>
     </div>
   );
 };

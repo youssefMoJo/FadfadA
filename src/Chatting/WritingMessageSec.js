@@ -122,6 +122,7 @@ class WritingMessageSec extends React.Component {
   }
   addEmoji = (e) => {
     let emoji = e.native;
+
     this.setState(
       {
         message: this.state.message + emoji,
@@ -186,6 +187,7 @@ class WritingMessageSec extends React.Component {
               style={{ borderRadius: "50px" }}
               showEmojis={this.state.showEmojis}
               onSelect={(emoji) => this.addEmoji(emoji)}
+              theme="dark"
             />
           </EmojisBox>
         ) : (
@@ -238,11 +240,11 @@ class WritingMessageSec extends React.Component {
               }}
             >
               <ModalImage
-                // large={require(`.././uploads/${this.state.image.substring(
-                //   12,
-                //   this.state.image.length
-                // )}`)}
-                large={require(`./bg.png`)}
+                large={require(`.././uploads/${this.state.image.substring(
+                  12,
+                  this.state.image.length
+                )}`)}
+                // large={require(`./bg.png`)}
                 alt="Preview"
               />
             </div>

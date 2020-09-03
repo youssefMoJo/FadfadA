@@ -14,7 +14,6 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    io.emit("getOnlineUsers");
     io.on("onlineUsers", (onlineUsers, users) => {
       this.setState({ onlineUsers: onlineUsers });
     });
