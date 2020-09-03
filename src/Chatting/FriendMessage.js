@@ -69,11 +69,24 @@ class FriendMessage extends React.Component {
               marginLeft: "20px",
               cursor: "pointer",
             }}
-            onClick={() => this.props.onClick(this.props.name)}
           >
-            {this.props.name}
+            {this.props.name}{" "}
+            <span
+              onClick={() => this.props.onClick(this.props.name)}
+              style={{ marginLeft: "20px", color: "green" }}
+            >
+              Send Private Message
+            </span>
           </h3>
-          <CommentOutlined style={{ ...iconsStyles }} />
+          <CommentOutlined
+            onClick={() => this.props.onClick(this.props.name)}
+            style={{
+              ...iconsStyles,
+              marginLeft: "5px",
+              fontSize: "15px",
+              color: "green",
+            }}
+          />
         </div>
 
         {this.props.message.includes("https") &&

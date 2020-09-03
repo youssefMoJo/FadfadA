@@ -256,6 +256,18 @@ class ChattingMainContainer extends React.Component {
                 {this.state.sendSomethingPrivateTo.charAt(0).toUpperCase() +
                   this.state.sendSomethingPrivateTo.slice(1)}
               </span>
+              <span
+                style={{
+                  color: "green",
+                  fontSize: "18px",
+                  border: "1px solid green",
+                  borderRadius: "100%",
+                  padding: "10px",
+                  marginLeft: "5px",
+                }}
+              >
+                Back To Public
+              </span>
             </div>
           ) : (
             ""
