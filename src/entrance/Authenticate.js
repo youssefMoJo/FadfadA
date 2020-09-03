@@ -63,10 +63,12 @@ const Authenticate = (props) => {
       style={{
         width: "100%",
         height: "100%",
+
         // position: "absolute",
       }}
     >
-      <Background total={35} />
+      <Background total={45} />
+      {/* <div style={{ position: "absolute" }}>this is for testing</div> */}
       <UserNameModel>
         <form onSubmit={(e) => sendName(e)}>
           <label>User Name : </label>
@@ -85,7 +87,7 @@ const Authenticate = (props) => {
             type="password"
             required
           />
-          {!props.logginginError ? (
+          {props.logginginError ? (
             <div
               style={{
                 width: "100%",
@@ -93,7 +95,12 @@ const Authenticate = (props) => {
               }}
             >
               <div>This User Name Is taken In The Present Chatting Room. </div>
-              <div>
+              <div
+                style={{
+                  width: "100%",
+                  color: "green",
+                }}
+              >
                 If you are that person, make sure that the password is correct.{" "}
               </div>
             </div>
@@ -103,6 +110,13 @@ const Authenticate = (props) => {
             Join
           </button>
         </form>
+        {props.onlineUsers === 0 ? (
+          <div>The Chatting Room Is Empty</div>
+        ) : props.onlineUsers === 1 ? (
+          <div>{props.onlineUsers} Person Is Online </div>
+        ) : (
+          <div>{props.onlineUsers} People are Chatting Now</div>
+        )}
       </UserNameModel>
     </div>
   );

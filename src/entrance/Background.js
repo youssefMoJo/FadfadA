@@ -42,7 +42,7 @@ function Background(props) {
           height: "4px",
           backgroundColor: "#ff00cc",
           position: "absolute",
-          boxShadow: "0px 0px 10px 2px #ff00cc",
+          boxShadow: "0px 0px 10px 3px #ff00cc",
           borderRadius: "20px",
           left: R(w),
           right: R(w),
@@ -70,7 +70,12 @@ function Background(props) {
 
   return (
     <div
-      style={{ width: "100%", height: "100%", position: "absolute" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        overflow: "hidden",
+      }}
       ref={ref}
     />
   );

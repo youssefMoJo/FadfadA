@@ -3,14 +3,22 @@ import ChattingMainContainer from "../Chatting/ChattingMainContainer";
 import Authenticate from "../entrance/Authenticate";
 import openSocket from "socket.io-client";
 import NavBar from "../NavBar/NavBar";
+
 const io = openSocket("http://localhost:5000");
 
 class Home extends React.Component {
   state = {
     isloggedin: false,
     logginginError: false,
+    onlineUsers: 0,
   };
 
+  componentDidMount() {
+    io.emit("getOnlineUsers");
+    io.on("onlineUsers", (onlineUsers, users) => {
+      this.setState({ onlineUsers: onlineUsers });
+    });
+  }
   render() {
     return (
       <div>
@@ -37,6 +45,7 @@ class Home extends React.Component {
                   })
                 }
                 logginginError={this.state.logginginError}
+                onlineUsers={this.state.onlineUsers}
               />
             </div>
           )}
