@@ -5,7 +5,6 @@ const conversationBoxStyles = {
   flexDirection: "column",
   gridTemplateColumns: "auto",
   gridGap: "10px",
-  // background: "linear-gradient(white, #EEEEEE)",
   background: "white",
   height: "700px",
   width: "100%",

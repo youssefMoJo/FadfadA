@@ -13,7 +13,7 @@ const FriendMessageStyles = {
   float: "left",
   marginRight: "5px",
   fontSize: "25px",
-  margin: "0px",
+  margin: "10px",
   outline: "none",
 };
 const iconsStyles = {
@@ -98,16 +98,44 @@ class FriendMessage extends React.Component {
               opts={opts}
               onReady={this._onReady}
             />
+            {this.props.private ? (
+              <span
+                style={{
+                  display: "flex",
+                  color: "green",
+                  marginTop: "15px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                Private{" "}
+              </span>
+            ) : null}
           </div>
         ) : this.props.message.includes("https") ? (
-          <a
-            style={{ ...FriendMessageStyles }}
-            href={this.props.message}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {this.props.message}
-          </a>
+          <div>
+            <a
+              style={{ ...FriendMessageStyles }}
+              href={this.props.message}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {this.props.message}
+              {this.props.private ? (
+                <span
+                  style={{
+                    display: "flex",
+                    color: "green",
+                    marginTop: "15px",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                >
+                  Private{" "}
+                </span>
+              ) : null}
+            </a>
+          </div>
         ) : this.props.message.substring(4, 11) === "uploads" ? (
           videoFormats.includes(
             this.props.message.substring(
@@ -115,20 +143,35 @@ class FriendMessage extends React.Component {
               this.props.message.length
             )
           ) ? (
-            <video
-              style={{
-                ...FriendMessageStyles,
-                maxWidth: "200px",
-                backgroundColor: "white",
-              }}
-              src={require(`.././uploads/${this.props.message.substring(
-                12,
-                this.props.message.length
-              )}`)}
-              alt="Video"
-              type="video/mp4"
-              controls
-            />
+            <div>
+              <video
+                style={{
+                  ...FriendMessageStyles,
+                  maxWidth: "200px",
+                  backgroundColor: "white",
+                }}
+                src={require(`.././uploads/${this.props.message.substring(
+                  12,
+                  this.props.message.length
+                )}`)}
+                alt="Video"
+                type="video/mp4"
+                controls
+              />
+              {this.props.private ? (
+                <span
+                  style={{
+                    display: "flex",
+                    color: "green",
+                    marginTop: "15px",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                >
+                  Private{" "}
+                </span>
+              ) : null}
+            </div>
           ) : (
             <div
               style={{
@@ -148,10 +191,43 @@ class FriendMessage extends React.Component {
                 )}`)}
                 alt="Picture"
               />
+              {this.props.private ? (
+                <span
+                  style={{
+                    display: "flex",
+                    color: "green",
+                    marginTop: "15px",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                >
+                  Private{" "}
+                </span>
+              ) : null}
             </div>
           )
         ) : (
-          <p style={{ ...FriendMessageStyles }}>{this.props.message}</p>
+          <p
+            style={{
+              ...FriendMessageStyles,
+              border: this.props.private ? "2px solid green " : null,
+            }}
+          >
+            {this.props.message}{" "}
+            {this.props.private ? (
+              <span
+                style={{
+                  display: "flex",
+                  color: "green",
+                  marginTop: "15px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                Private{" "}
+              </span>
+            ) : null}
+          </p>
         )}
       </div>
     );

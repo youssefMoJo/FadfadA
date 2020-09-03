@@ -170,7 +170,12 @@ class ChattingMainContainer extends React.Component {
     for (let i = 0; i < this.state.messages.length; i++) {
       if (this.state.messages[i].username === this.state.username) {
         result.push(
-          <MyMessage key={i} message={this.state.messages[i].message} />
+          <MyMessage
+            private={this.state.messages[i].isPrivate}
+            privateTo={this.state.messages[i].to}
+            key={i}
+            message={this.state.messages[i].message}
+          />
         );
       } else if (this.state.messages[i].isPrivate) {
         if (this.state.messages[i].to !== this.state.username) {
@@ -178,6 +183,7 @@ class ChattingMainContainer extends React.Component {
         } else {
           result.push(
             <FriendMessage
+              private={this.state.messages[i].isPrivate}
               key={i}
               name={this.state.messages[i].username}
               message={this.state.messages[i].message}

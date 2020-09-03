@@ -97,7 +97,29 @@ class MyMessage extends React.Component {
             </div>
           )
         ) : (
-          <p style={{ ...myMessageStyles }}>{this.props.message}</p>
+          <p
+            style={{
+              ...myMessageStyles,
+              backgroundColor: this.props.private ? "white" : "#2F80ED",
+              color: this.props.private ? "black" : "white",
+              border: this.props.private ? "2px solid green " : null,
+            }}
+          >
+            {this.props.message}
+            {this.props.private ? (
+              <span
+                style={{
+                  display: "flex",
+                  color: "Green",
+                  marginTop: "15px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                Private To {this.props.privateTo}
+              </span>
+            ) : null}
+          </p>
         )}
       </div>
     );
