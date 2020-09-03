@@ -67,7 +67,25 @@ class OnlineUsers extends React.Component {
           <OnlineUsersBox>
             {Object.values(this.props.users).map((user, i) => {
               if (user.name !== this.props.userName && user.online) {
-                return <h2 key={i}>{user.name}</h2>;
+                return (
+                  <h2 key={i}>
+                    {user.name}{" "}
+                    <span
+                      onClick={() =>
+                        this.setState({ showUserNames: false }, () => {
+                          this.props.onClick(user.name);
+                        })
+                      }
+                      style={{
+                        marginLeft: "20px",
+                        color: "green",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Send Private Message
+                    </span>
+                  </h2>
+                );
               }
               return null;
             })}

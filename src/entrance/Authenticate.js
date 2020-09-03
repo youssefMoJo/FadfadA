@@ -47,14 +47,14 @@ const FeaturesModel = styled.div`
   border-radius: 15px;
   background-color: #f2f2f2;
   padding: 20px;
-  width: 25%;
-  margin-left: 37%;
-  height: 300px;
+  width: 50%;
+  margin-left: 25%;
+  height: 500px;
   background-color: white;
   position: absolute;
   overflow: auto;
   transition: all 0.3s ease;
-  margin-top: ${(props) => (props.showFeaturesModel ? "20%" : "17%")};
+  margin-top: ${(props) => (props.showFeaturesModel ? "10%" : "5%")};
   opacity: ${(props) => (props.showFeaturesModel ? "1" : "0")};
   z-index: ${(props) => (props.showFeaturesModel ? "1" : "-1")};
 
@@ -71,7 +71,7 @@ const FeaturesModel = styled.div`
 `;
 const EachFeature = styled.h3`
   border-radius: 150px;
-  padding: 15px;
+  padding: 20px;
   padding-left: 30px;
   background: linear-gradient(to right, #0f0c29, #302b63, #2c5364);
   color: white;
@@ -83,9 +83,8 @@ const BackButton = styled.button`
   border-radius: 150px;
   padding: 10px;
   margin-left: 6px;
-  font-size: 10px;
+  font-size: 30px;
   outline: none;
-  height: 48px;
   width: 100%;
   color: green;
   cursor: pointer;
@@ -100,6 +99,7 @@ const Authenticate = (props) => {
   const [showingFeaturesModel, setShowingFeaturesModel] = useState(false);
 
   const features = [
+    "To test the application by yourself open up a new incognito window and join the chat with a different user",
     "This application is about a public room where you can enter it at any time with any name that is not been used in the present room if there is one.",
     "The user can leave the chatting room and rejoin again with the same username and password and restore all the messages, as long as the room you left is the same room you want to join. ",
     "No conversation will be saved after everyone leaves the room.",
@@ -127,7 +127,7 @@ const Authenticate = (props) => {
         height: "100%",
       }}
     >
-      <Background total={50} />
+      <Background total={1} />
       <UserNameModel>
         <form onSubmit={(e) => sendName(e)}>
           <label>User Name : </label>
@@ -178,7 +178,7 @@ const Authenticate = (props) => {
           onClick={() => setShowingFeaturesModel(true)}
         >
           {" "}
-          Features
+          How It Works ?
         </button>
 
         {props.onlineUsers === 0 ? (

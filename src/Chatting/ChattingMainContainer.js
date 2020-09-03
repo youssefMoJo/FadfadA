@@ -224,6 +224,9 @@ class ChattingMainContainer extends React.Component {
           onlineUsers={this.state.onlineUsers}
           users={this.state.users}
           userName={this.state.username}
+          onClick={(name) => {
+            this.privateMessage(name);
+          }}
         />
 
         <ConversationBox>
