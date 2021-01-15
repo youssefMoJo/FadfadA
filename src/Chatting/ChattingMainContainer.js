@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 const io = openSocket("http://localhost:5000");
 const history = createHashHistory();
 
+
 const ChattingMainContainerStyles = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,7 +100,7 @@ class ChattingMainContainer extends React.Component {
         io.emit("getOnlineUsers");
         io.emit("gettingAllMessages");
         io.on("allMessages", (messagesArr, users) => {
-          this.setState({ messages: [...messagesArr], users: users }, () => {});
+          this.setState({ messages: [...messagesArr], users: users }, () => { });
         });
       }
     );
@@ -280,8 +281,8 @@ class ChattingMainContainer extends React.Component {
               </span>
             </div>
           ) : (
-            ""
-          )}
+              ""
+            )}
         </div>
         <WritingMessageSec
           message={(mes) => this.presentMessage(mes)}
