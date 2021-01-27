@@ -143,7 +143,7 @@ class WritingMessageSec extends React.Component {
     formData.append("file", files[0]);
 
     axios
-      .post("http://localhost:5000/upload/imageOrVideo", formData, config)
+      .post("http://172.31.42.51:5000/upload/imageOrVideo", formData, config)
       .then((res) => {
         if (res.data.success) {
           toast.success("upload success");
@@ -191,8 +191,8 @@ class WritingMessageSec extends React.Component {
             />
           </EmojisBox>
         ) : (
-          ""
-        )}
+            ""
+          )}
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the icon to show the emojis box */}
         <SmileOutlined

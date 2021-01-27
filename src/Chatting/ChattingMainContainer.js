@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { ToastContainer, toast } from "react-toastify";
 
-const io = openSocket("http://localhost:5000");
+const io = openSocket("http://172.31.42.51:5000");
 const history = createHashHistory();
 
 
