@@ -4,7 +4,7 @@ import Authenticate from "../entrance/Authenticate";
 import openSocket from "socket.io-client";
 import NavBar from "../NavBar/NavBar";
 
-const io = openSocket("http://172.31.42.51:5000");
+const io = openSocket("http://3.139.100.113");
 
 class Home extends React.Component {
   state = {
