@@ -2,12 +2,12 @@ import React from "react";
 import { UploadOutlined, SmileOutlined, SendOutlined } from "@ant-design/icons";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
-import Dropzone from "react-dropzone";
+// import Dropzone from "react-dropzone";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
-import ModalImage from "react-modal-image";
+// import ModalImage from "react-modal-image";
 
 const iconsStyles = {
   display: "inline",
@@ -191,8 +191,8 @@ class WritingMessageSec extends React.Component {
             />
           </EmojisBox>
         ) : (
-          ""
-        )}
+            ""
+          )}
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the icon to show the emojis box */}
         <SmileOutlined
@@ -208,7 +208,7 @@ class WritingMessageSec extends React.Component {
         />
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the icon for uploading  */}
-        <Dropzone onDrop={this.onDrop}>
+        {/* <Dropzone onDrop={this.onDrop}>
           {({ getRootProps, getInputProps }) => (
             <section>
               <div
@@ -224,10 +224,10 @@ class WritingMessageSec extends React.Component {
               </div>
             </section>
           )}
-        </Dropzone>
+        </Dropzone> */}
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the send icon to send the file you uploaded */}
-        {this.state.readyToSend ? (
+        {/* {this.state.readyToSend ? (
           <div>
             <SendFilesButton onClick={this.sendTheFile}>Send</SendFilesButton>
             <div
@@ -249,7 +249,7 @@ class WritingMessageSec extends React.Component {
               />
             </div>
           </div>
-        ) : null}
+        ) : null} */}
         {/* -------------------------------------------------------------------------------- */}
         {/* this is the message input */}
         <InputStyles
