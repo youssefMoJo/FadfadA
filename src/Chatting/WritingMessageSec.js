@@ -12,7 +12,7 @@ import styled from "styled-components";
 const iconsStyles = {
   display: "inline",
   fontSize: "30px",
-  marginLeft: "5px",
+  marginLeft: "20px",
   outline: "none",
   paddingTop: "10px",
   cursor: "pointer",
@@ -36,7 +36,7 @@ const InputStyles = styled.textarea`
   outline: none;
   font-size: 15px;
   over-flow: auto;
-  padding: 10px 0px 0px 25px;
+  padding: 15px 10px 10px 25px;
   margin-left: 20px;
 
   width: ${(props) => (props.widthAdjusting ? "60%" : "80%")};
