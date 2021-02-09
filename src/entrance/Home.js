@@ -13,11 +13,13 @@ class Home extends React.Component {
     onlineUsers: 0,
   };
 
+
   componentDidMount() {
     io.on("onlineUsers", (onlineUsers, users) => {
       this.setState({ onlineUsers: onlineUsers });
     });
   }
+
   render() {
     return (
       <div>
@@ -28,26 +30,27 @@ class Home extends React.Component {
               <NavBar />
             </div>
           ) : (
-            <div>
-              <Authenticate
-                formInformation={(name, password) =>
-                  io.emit("NewUser", name, password, (err, pass) => {
-                    if (pass) {
-                      localStorage.setItem("userOnline", true);
-                      localStorage.setItem("username", name);
-                      this.setState({
-                        isloggedin: true,
-                      });
-                    } else {
-                      this.setState({ logginginError: true });
-                    }
-                  })
-                }
-                logginginError={this.state.logginginError}
-                onlineUsers={this.state.onlineUsers}
-              />
-            </div>
-          )}
+              <div>
+                <Authenticate
+                  formInformation={(name, password) =>
+                    io.emit("NewUser", name, password, (err, pass) => {
+                      if (pass) {
+                        localStorage.setItem("userOnline", true);
+                        localStorage.setItem("username", name);
+                        this.setState({
+                          isloggedin: true,
+                        });
+                      } else {
+                        this.setState({ logginginError: true });
+                      }
+                    })
+                  }
+                  logginginError={this.state.logginginError}
+                  onlineUsers={this.state.onlineUsers}
+                />
+                <NavBar />
+              </div>
+            )}
         </div>
       </div>
     );

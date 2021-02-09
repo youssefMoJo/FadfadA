@@ -17,7 +17,7 @@ function Background(props) {
 
     // -----------------------------------------------------
     function addAnimation(divElm) {
-      return TweenLite.to(divElm, R(20) + 20, {
+      return TweenLite.to(divElm, R(10) + 10, {
         left: R(w),
         right: R(w),
         top: R(h),

@@ -28,6 +28,7 @@ let onlineUsers = 0;
 let users = {};
 
 io.on("connection", (client) => {
+
   client.on("NewUser", (userName, password, callback) => {
     if (users[userName]) {
       let passwordChecking = bcrypt.compareSync(
@@ -59,7 +60,7 @@ io.on("connection", (client) => {
       callback(false, true);
     }
   });
-
+  io.emit("onlineUsers", onlineUsers, users);
   client.on("getOnlineUsers", (leave, userName) => {
     if (leave) {
       users[userName].OnlineDevices = users[userName].OnlineDevices - 1;
