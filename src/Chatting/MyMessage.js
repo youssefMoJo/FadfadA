@@ -11,9 +11,9 @@ const myMessageStyles = {
   maxWidth: "500px",
   padding: "15px",
   float: "right",
-  marginRight: "5px",
-  fontSize: "25px",
   margin: "0px",
+  marginRight: "10px",
+  fontSize: "25px",
   outline: "none",
 };
 
@@ -36,82 +36,18 @@ class MyMessage extends React.Component {
     return (
       <div>
         {this.props.message.includes("https") &&
-        this.props.message.includes("www") &&
-        this.props.message.includes("youtube") ? (
-          <div style={{ ...myMessageStyles, backgroundColor: "white" }}>
-            <YouTube
-              videoId={this.youtube_parser(this.props.message)}
-              opts={opts}
-              onReady={this._onReady}
-            />
-            {this.props.private ? (
-              <span
-                style={{
-                  display: "flex",
-                  color: "Green",
-                  marginTop: "15px",
-                  fontWeight: "bold",
-                  fontSize: "15px",
-                }}
-              >
-                Private To {this.props.privateTo}
-              </span>
-            ) : null}
-          </div>
-        ) : this.props.message.includes("https") ? (
-          <a
-            style={{
-              ...myMessageStyles,
-              backgroundColor: this.props.private ? "white" : "#2F80ED",
-              color: this.props.private ? "black" : "white",
-              border: this.props.private ? "2px solid green " : null,
-            }}
-            href={this.props.message}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {this.props.message}
-            {this.props.private ? (
-              <span
-                style={{
-                  display: "flex",
-                  color: "Green",
-                  marginTop: "15px",
-                  fontWeight: "bold",
-                  fontSize: "15px",
-                }}
-              >
-                Private To {this.props.privateTo}
-              </span>
-            ) : null}
-          </a>
-        ) : this.props.message.substring(4, 11) === "uploads" ? (
-          videoFormats.includes(
-            this.props.message.substring(
-              this.props.message.length - 3,
-              this.props.message.length
-            )
-          ) ? (
-            <div>
-              <video
-                style={{
-                  ...myMessageStyles,
-                  maxWidth: "200px",
-                  backgroundColor: "white",
-                }}
-                src={require(`.././uploads/${this.props.message.substring(
-                  12,
-                  this.props.message.length
-                )}`)}
-                alt="Video"
-                type="video/mp4"
-                controls
+          this.props.message.includes("www") &&
+          this.props.message.includes("youtube") ? (
+            <div style={{ ...myMessageStyles, backgroundColor: "white" }}>
+              <YouTube
+                videoId={this.youtube_parser(this.props.message)}
+                opts={opts}
+                onReady={this._onReady}
               />
               {this.props.private ? (
                 <span
                   style={{
                     display: "flex",
-                    float: "right",
                     color: "Green",
                     marginTop: "15px",
                     fontWeight: "bold",
@@ -122,25 +58,19 @@ class MyMessage extends React.Component {
                 </span>
               ) : null}
             </div>
-          ) : (
-            <div
+          ) : this.props.message.includes("https") ? (
+            <a
               style={{
                 ...myMessageStyles,
-                maxWidth: "200px",
-                backgroundColor: "white",
+                backgroundColor: this.props.private ? "white" : "#2F80ED",
+                color: this.props.private ? "black" : "white",
+                border: this.props.private ? "2px solid green " : null,
               }}
+              href={this.props.message}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <ModalImage
-                small={require(`.././uploads/${this.props.message.substring(
-                  12,
-                  this.props.message.length
-                )}`)}
-                large={require(`.././uploads/${this.props.message.substring(
-                  12,
-                  this.props.message.length
-                )}`)}
-                alt="Picture"
-              />
+              {this.props.message}
               {this.props.private ? (
                 <span
                   style={{
@@ -154,33 +84,103 @@ class MyMessage extends React.Component {
                   Private To {this.props.privateTo}
                 </span>
               ) : null}
-            </div>
-          )
-        ) : (
-          <p
-            style={{
-              ...myMessageStyles,
-              backgroundColor: this.props.private ? "white" : "#2F80ED",
-              color: this.props.private ? "black" : "white",
-              border: this.props.private ? "2px solid green " : null,
-            }}
-          >
-            {this.props.message}
-            {this.props.private ? (
-              <span
-                style={{
-                  display: "flex",
-                  color: "Green",
-                  marginTop: "15px",
-                  fontWeight: "bold",
-                  fontSize: "15px",
-                }}
-              >
-                Private To {this.props.privateTo}
-              </span>
-            ) : null}
-          </p>
-        )}
+            </a>
+          ) : this.props.message.substring(4, 11) === "uploads" ? (
+            videoFormats.includes(
+              this.props.message.substring(
+                this.props.message.length - 3,
+                this.props.message.length
+              )
+            ) ? (
+                <div>
+                  <video
+                    style={{
+                      ...myMessageStyles,
+                      maxWidth: "200px",
+                      backgroundColor: "white",
+                    }}
+                    src={require(`.././uploads/${this.props.message.substring(
+                      12,
+                      this.props.message.length
+                    )}`)}
+                    alt="Video"
+                    type="video/mp4"
+                    controls
+                  />
+                  {this.props.private ? (
+                    <span
+                      style={{
+                        display: "flex",
+                        float: "right",
+                        color: "Green",
+                        marginTop: "15px",
+                        fontWeight: "bold",
+                        fontSize: "15px",
+                      }}
+                    >
+                      Private To {this.props.privateTo}
+                    </span>
+                  ) : null}
+                </div>
+              ) : (
+                <div
+                  style={{
+                    ...myMessageStyles,
+                    maxWidth: "200px",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <ModalImage
+                    small={require(`.././uploads/${this.props.message.substring(
+                      12,
+                      this.props.message.length
+                    )}`)}
+                    large={require(`.././uploads/${this.props.message.substring(
+                      12,
+                      this.props.message.length
+                    )}`)}
+                    alt="Picture"
+                  />
+                  {this.props.private ? (
+                    <span
+                      style={{
+                        display: "flex",
+                        color: "Green",
+                        marginTop: "15px",
+                        fontWeight: "bold",
+                        fontSize: "15px",
+                      }}
+                    >
+                      Private To {this.props.privateTo}
+                    </span>
+                  ) : null}
+                </div>
+              )
+          ) : (
+                <p
+                  style={{
+                    ...myMessageStyles,
+                    backgroundColor: this.props.private ? "white" : "#2F80ED",
+                    color: this.props.private ? "black" : "white",
+                    border: this.props.private ? "2px solid green " : null,
+                  }}
+                >
+                  {this.props.message}
+                  {this.props.private ? (
+                    <span
+                      style={{
+                        display: "flex",
+                        color: "Green",
+                        marginTop: "15px",
+                        fontWeight: "bold",
+                        fontSize: "15px",
+                      }}
+                    >
+                      Private To {this.props.privateTo}
+                    </span>
+                  ) : null}
+                </p>
+              )}
       </div>
     );
   }
