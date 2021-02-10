@@ -17,14 +17,14 @@ function Background(props) {
 
     // -----------------------------------------------------
     function addAnimation(divElm) {
-      return TweenLite.to(divElm, R(10) + 10, {
+      return TweenLite.to(divElm, R(10) + 15, {
         left: R(w),
         right: R(w),
         top: R(h),
         bottom: R(h),
         opacity: R(1),
         scale: R(1) + 1,
-        delay: R(2),
+        delay: R(0),
         backgroundColor: "rgb(47, 128, 237)",
         boxShadow: "0px 0px 10px 3px rgb(47, 128, 237)",
         onComplete: addAnimation,

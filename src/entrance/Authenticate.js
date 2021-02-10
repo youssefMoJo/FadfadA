@@ -94,13 +94,14 @@ const BackButton = styled.button`
   }
 `;
 const Authenticate = (props) => {
-  let name = "";
-  let password = "";
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+
   const [showingFeaturesModel, setShowingFeaturesModel] = useState(false);
 
   const features = [
-    "To test the application by yourself open up a new incognito window and join the chat with a different user",
     "This application is about a public room where you can enter it at any time with any name that is not been used in the present room if there is one.",
+    "To test the application by yourself open up a new incognito window and join the chat with a different user",
     "The user can leave the chatting room and rejoin again with the same username and password and restore all the messages, as long as the room you left is the same room you want to join. ",
     "No conversation will be saved after everyone leaves the room.",
     "The user can join the room from multiple devices.",
@@ -108,15 +109,16 @@ const Authenticate = (props) => {
   ];
 
   const username = (e) => {
-    name = e.target.value;
+    setName(e.target.value)
   };
 
   const Password = (e) => {
-    password = e.target.value;
+    setPassword(e.target.value)
   };
 
   const sendName = (e) => {
     e.preventDefault();
+
     props.formInformation(name, password);
   };
 
@@ -186,8 +188,8 @@ const Authenticate = (props) => {
         ) : props.onlineUsers === 1 ? (
           <div>{props.onlineUsers} Person Is Online </div>
         ) : (
-          <div>{props.onlineUsers} People are Chatting Now</div>
-        )}
+              <div>{props.onlineUsers} People are Chatting Now</div>
+            )}
       </UserNameModel>
       <FeaturesModel showFeaturesModel={showingFeaturesModel}>
         {features.map((eachFeature) => {

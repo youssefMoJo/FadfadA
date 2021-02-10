@@ -31,23 +31,33 @@ io.on("connection", (client) => {
 
   client.on("NewUser", (userName, password, callback) => {
     if (users[userName]) {
+      console.log("after checking the userName")
+
       let passwordChecking = bcrypt.compareSync(
         password,
         users[userName].password
       );
+
       if (passwordChecking) {
+        console.log("after checking the pass")
         if (users[userName].online === false) {
           users[userName].OnlineDevices = 1;
           onlineUsers++;
           users[userName].online = true;
           callback(false, true);
-        } else {
+        }
+
+        else {
           users[userName].OnlineDevices = users[userName].OnlineDevices + 1;
           callback(false, true);
         }
       }
       callback(true);
-    } else {
+    }
+
+    else {
+      console.log("in the creating new user section")
+
       onlineUsers++;
       let name = userName;
       let hashedPassword = bcrypt.hashSync(password, salt);
@@ -60,7 +70,9 @@ io.on("connection", (client) => {
       callback(false, true);
     }
   });
+
   io.emit("onlineUsers", onlineUsers, users);
+
   client.on("getOnlineUsers", (leave, userName) => {
     if (leave) {
       users[userName].OnlineDevices = users[userName].OnlineDevices - 1;
