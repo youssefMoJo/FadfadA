@@ -31,7 +31,6 @@ io.on("connection", (client) => {
 
   client.on("NewUser", (userName, password, callback) => {
     if (users[userName]) {
-      console.log("after checking the userName")
 
       let passwordChecking = bcrypt.compareSync(
         password,
@@ -39,7 +38,6 @@ io.on("connection", (client) => {
       );
 
       if (passwordChecking) {
-        console.log("after checking the pass")
         if (users[userName].online === false) {
           users[userName].OnlineDevices = 1;
           onlineUsers++;
@@ -56,7 +54,6 @@ io.on("connection", (client) => {
     }
 
     else {
-      console.log("in the creating new user section")
 
       onlineUsers++;
       let name = userName;
