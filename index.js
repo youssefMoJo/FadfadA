@@ -101,7 +101,7 @@ io.on("connection", (client) => {
   });
 });
 app.use(uploading);
-
-server.listen(5000, () => {
-  console.log("the server is running ");
+const port = 5000
+server.listen(port, () => {
+  console.log("the server is running on port: " + port);
 });
