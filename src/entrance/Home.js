@@ -6,6 +6,8 @@ import NavBar from "../NavBar/NavBar";
 
 const io = openSocket("http://localhost:5000");
 
+
+
 class Home extends React.Component {
   state = {
     isloggedin: false,

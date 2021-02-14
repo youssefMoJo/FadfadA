@@ -22,12 +22,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+
 const salt = bcrypt.genSaltSync(10);
 let messagesArray = [];
 let onlineUsers = 0;
 let users = {};
 
 io.on("connection", (client) => {
+  console.log("someone is connected to the server!!")
 
   client.on("NewUser", (userName, password, callback) => {
     if (users[userName]) {
