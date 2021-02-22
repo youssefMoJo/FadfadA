@@ -4,7 +4,7 @@ import Authenticate from "../entrance/Authenticate";
 import openSocket from "socket.io-client";
 import NavBar from "../NavBar/NavBar";
 
-const io = openSocket("http://localhost:5000");
+const io = openSocket("http://3.141.165.79:5010");
 
 
 

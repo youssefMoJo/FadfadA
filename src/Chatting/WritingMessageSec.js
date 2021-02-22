@@ -143,7 +143,7 @@ class WritingMessageSec extends React.Component {
     formData.append("file", files[0]);
 
     axios
-      .post("http://localhost:5000/upload/imageOrVideo", formData, config)
+      .post("http://3.141.165.79:5010/upload/imageOrVideo", formData, config)
       .then((res) => {
         if (res.data.success) {
           toast.success("upload success");

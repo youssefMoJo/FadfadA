@@ -103,7 +103,7 @@ io.on("connection", (client) => {
   });
 });
 app.use(uploading);
-const port = 5000
+const port = 5010
 server.listen(port, () => {
   console.log("the server is running on port: " + port);
 });
